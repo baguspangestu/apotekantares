@@ -16,8 +16,7 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=home"
-                  class="text-secondary text-decoration-none">Dashboard</a></div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=home" class="text-secondary text-decoration-none">Dashboard</a></div>
             </div>
             <div class="col-auto">
               <i class="fas fa-home fa-2x text-gray-300"></i>
@@ -32,8 +31,7 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=datakategori"
-                  class="text-secondary text-decoration-none">Data Kategori</a></div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=datakategori" class="text-secondary text-decoration-none">Data Kategori</a></div>
             </div>
             <div class="col-auto">
               <i class="fas fa-cubes fa-2x text-gray-300"></i>
@@ -48,11 +46,10 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=dataproduk"
-                  class="text-secondary text-decoration-none">Data Produk</a></div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=dataproduk" class="text-secondary text-decoration-none">Data Produk</a></div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-tablets fa-2x text-gray-300"></i>
+              <i class="fas fa-boxes fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
@@ -64,8 +61,7 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=datasuplier"
-                  class="text-secondary text-decoration-none">Data Suplier</a></div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=datasuplier" class="text-secondary text-decoration-none">Data Suplier</a></div>
             </div>
             <div class="col-auto">
               <i class="fas fa-hospital-user fa-2x text-gray-300"></i>
@@ -80,8 +76,7 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=datauser"
-                  class="text-secondary text-decoration-none">Data Pengguna</a></div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=datauser" class="text-secondary text-decoration-none">Data Pengguna</a></div>
             </div>
             <div class="col-auto">
               <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -96,8 +91,7 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=databeli"
-                  class="text-secondary text-decoration-none">Data Pembelian</a></div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="?page=databeli" class="text-secondary text-decoration-none">Data Pembelian</a></div>
             </div>
             <div class="col-auto">
               <i class="fas fa-dolly-flatbed fa-2x text-gray-300"></i>
