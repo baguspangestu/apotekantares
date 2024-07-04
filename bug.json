@@ -1,0 +1,110 @@
+[
+  {
+    "kd": "PD007",
+    "nama": "Paracetamol",
+    "tgl_exp": "2024-06-15",
+    "satuan": "strip",
+    "harga": "5000",
+    "stok": 0,
+    "jumlah": "100"
+  },
+  {
+    "kd": "PD008",
+    "nama": "Ibuprofen",
+    "tgl_exp": "2024-05-30",
+    "satuan": "strip",
+    "harga": "10000",
+    "stok": 0,
+    "jumlah": "20"
+  },
+  {
+    "kd": "PD016",
+    "nama": "Glibenclamide",
+    "tgl_exp": "2025-09-05",
+    "satuan": "strip",
+    "harga": "25000",
+    "stok": 0,
+    "jumlah": "35"
+  },
+  {
+    "kd": "PD023",
+    "nama": "Antasida",
+    "tgl_exp": "2024-02-20",
+    "satuan": "strip",
+    "harga": "20000",
+    "stok": 0,
+    "jumlah": "20"
+  },
+  {
+    "kd": "PD024",
+    "nama": "Ranitidine",
+    "tgl_exp": "2024-01-25",
+    "satuan": "strip",
+    "harga": "25000",
+    "stok": 0,
+    "jumlah": "20"
+  },
+  {
+    "kd": "PD031",
+    "nama": "Tetes Mata",
+    "tgl_exp": "2024-06-15",
+    "satuan": "bottle",
+    "harga": "10000",
+    "stok": 0,
+    "jumlah": "50"
+  },
+  {
+    "kd": "PD032",
+    "nama": "Salep Mata",
+    "tgl_exp": "2023-05-05",
+    "satuan": "tube",
+    "harga": "15000",
+    "stok": 0,
+    "jumlah": "10"
+  },
+  {
+    "kd": "PD047",
+    "nama": "Krim Reumatik",
+    "tgl_exp": "2023-02-05",
+    "satuan": "tube",
+    "harga": "30000",
+    "stok": 0,
+    "jumlah": "20"
+  },
+  {
+    "kd": "PD048",
+    "nama": "Gel Anti Nyeri",
+    "tgl_exp": "2023-01-10",
+    "satuan": "tube",
+    "harga": "35000",
+    "stok": 0,
+    "jumlah": "10"
+  },
+  {
+    "kd": "PD055",
+    "nama": "Diazepam",
+    "tgl_exp": "2023-06-05",
+    "satuan": "strip",
+    "harga": "35000",
+    "stok": 0,
+    "jumlah": "10"
+  },
+  {
+    "kd": "PD056",
+    "nama": "Clonazepam",
+    "tgl_exp": "2023-05-15",
+    "satuan": "strip",
+    "harga": "40000",
+    "stok": 0,
+    "jumlah": 0
+  },
+  {
+    "kd": "PD015",
+    "nama": "Metformin",
+    "tgl_exp": "2025-10-15",
+    "harga": "30000",
+    "satuan": "strip",
+    "stok": "0",
+    "jumlah": "2"
+  }
+]
