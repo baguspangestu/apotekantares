@@ -9,7 +9,7 @@ $transaksiAwalQuery =  "SELECT a.kd, a.tanggal, a.pembeli, a.subtotal, a.diskon,
 $transaksiAwalResult = mysqli_query($konek, $transaksiAwalQuery);
 $transaksiAwalData = mysqli_fetch_assoc($transaksiAwalResult);
 
-$detailTransaksiAwalQuery =  "SELECT b.kd, b.nama, c.tgl_exp, a.harga, c.stok, a.jumlah
+$detailTransaksiAwalQuery =  "SELECT b.kd, b.nama, c.tgl_exp, b.satuan, a.harga, c.stok, a.jumlah
                               FROM detail_transaksi_jual a 
                               LEFT JOIN produk b ON a.kd_produk = b.kd 
                               LEFT JOIN detail_produk c ON b.kd = c.kd_produk
@@ -127,6 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>Kode</th>
                 <th>Nama</th>
                 <th>Tgl Exp</th>
+                <th>Satuan</th>
                 <th>Harga </th>
                 <th>Stok</th>
                 <th>Aksi</th>
@@ -207,8 +208,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           <div class="form-group">
             <label class="font-weight-bold">Jumlah</label>
-            <input autocomplete="off" type="number" id="tpJumlahInput" class="form-control" />
-            <div class="invalid-feedback">Jumlah melebihi stok!</div>
+            <div class="input-group">
+              <input autocomplete="off" type="number" id="tpJumlahInput" class="form-control" />
+              <div class="input-group-append">
+                <an class="input-group-text" id="tpSatuan">
+                  <textan>
+              </div>
+              <div class="invalid-feedback">Jumlah melebihi stok!</div>
+            </div>
           </div>
 
           <div class="form-group">
@@ -230,6 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <th>Kode</th>
                   <th>Nama</th>
                   <th>Tgl Exp</th>
+                  <th>Satuan</th>
                   <th>Harga</th>
                   <th>Jumlah</th>
                   <th>Total</th>
@@ -239,7 +247,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <tbody id="tbodyListPembelian"></tbody>
               <tfoot>
                 <tr class="text-center bg-light font-weight-bold">
-                  <td colspan="6">Total</td>
+                  <td colspan="7">Total</td>
                   <input type="hidden" id="subTotalHidden" name="subTotal" />
                   <td id="subTotal" align="right"></td>
                   <td>-</td>
@@ -336,12 +344,12 @@ function getListProduk(q = '', p = 1) {
           row.addClass("text-center");
 
           const cell = [];
-          for (let i = 0; i < 7; i++) {
+          for (let i = 0; i < 8; i++) {
             const c = $('<td></td>').appendTo(row);
             c.addClass("align-middle");
 
             if (i === 2) c.addClass("text-left");
-            if (i === 4) c.addClass("text-right");
+            if (i === 5) c.addClass("text-right");
 
             cell.push(c);
           }
@@ -350,15 +358,16 @@ function getListProduk(q = '', p = 1) {
           cell[1].text(e.kd);
           cell[2].text(e.nama);
           cell[3].text(formatTanggal(e.tgl_exp));
-          cell[4].text(formatRupiah(e.harga));
-          cell[5].text(e.stok);
-          cell[6].html(`<span class="btn btn-success btn-sm" onClick="pilihProduk('${e.kd}')">Pilih</span>`);
+          cell[4].text(e.satuan);
+          cell[5].text(formatRupiah(e.harga));
+          cell[6].text(e.stok);
+          cell[7].html(`<span class="btn btn-success btn-sm" onClick="pilihProduk('${e.kd}')">Pilih</span>`);
         });
       } else {
         const row = $('<tr></tr>').appendTo('#tbodyListProduk');
         row.addClass("text-center");
         const cell1 = $('<td></td>').appendTo(row);
-        cell1.attr('colspan', 7);
+        cell1.attr('colspan', 8);
         cell1.text("Produk tidak ditemukan");
       }
 
@@ -391,6 +400,7 @@ function resetTPForm() {
   $("#tpKdInput").val('');
   $("#tpNamaInput").val('');
   $("#tpTglExp").val('');
+  $("#tpSatuan").text('');
   $("#tpHargaInput").val('');
   $("#tpStokInput").val('');
   $("#tpJumlahInput").val('');
@@ -405,6 +415,7 @@ function pilihProduk(kd) {
   $("#tpKdInput").val(selectedProduct?.kd ?? '-');
   $("#tpNamaInput").val(selectedProduct?.nama ?? '-');
   $("#tpTglExp").val(selectedProduct?.tgl_exp ?? '');
+  $("#tpSatuan").text(selectedProduct?.satuan ?? '');
   $("#tpHargaInput").val(formatRupiah(selectedProduct?.harga ?? 0));
   $("#tpStokInput").val(selectedProduct?.stok ?? 0);
   $("#tpJumlahInput").val(selectedProduct?.harga ? 1 : 0);
@@ -506,15 +517,15 @@ function updateDaftarPembelian() {
       row.addClass("text-center");
 
       const cell = [];
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 9; i++) {
         const c = $('<td></td>').appendTo(row);
         c.addClass("align-middle");
 
         if (i === 2) {
           c.addClass("text-left");
-        } else if (i === 4 || i === 6) {
+        } else if (i === 5 || i === 7) {
           c.addClass("text-right");
-        } else if (i === 5) {
+        } else if (i === 6) {
           c.addClass("d-flex justify-content-between align-items-center");
         }
 
@@ -525,8 +536,9 @@ function updateDaftarPembelian() {
       cell[1].text(e.kd);
       cell[2].text(e.nama);
       cell[3].text(formatTanggal(e.tgl_exp));
-      cell[4].text(formatRupiah(e.harga));
-      cell[5].html(`
+      cell[4].text(e.satuan);
+      cell[5].text(formatRupiah(e.harga));
+      cell[6].html(`
           <span class="btn btn-outline-success btn-sm ${parseInt(e.jumlah) - 1 === 0 ? 'disabled' : ''}" 
                 onClick="${parseInt(e.jumlah) - 1 === 0 ? '' : `updatePembelian('${e.kd}','${parseInt(e.jumlah) - 1}')`}">
               <i class="fas fa-chevron-left"></i>
@@ -537,8 +549,8 @@ function updateDaftarPembelian() {
               <i class="fas fa-chevron-right"></i>
           </span>
         `);
-      cell[6].text(formatRupiah(total));
-      cell[7].html(`
+      cell[7].text(formatRupiah(total));
+      cell[8].html(`
             <span style="cursor: pointer" class="text-danger" onClick="removePembelian('${e.kd}')"><i class="fas fa-trash-alt"></i></span>
         `);
 
@@ -549,7 +561,7 @@ function updateDaftarPembelian() {
     const row = $('<tr></tr>').appendTo(tbody);
     row.addClass("text-center");
     const cell1 = $('<td></td>').appendTo(row);
-    cell1.attr('colspan', 8);
+    cell1.attr('colspan', 9);
     cell1.text("Belum ada data pembelian");
   }
 

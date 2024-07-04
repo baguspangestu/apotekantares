@@ -12,7 +12,7 @@ if (!empty($q)) {
   $searchQuery = "WHERE a.nama LIKE '%$q%'";
 }
 
-$query = "SELECT a.kd, a.nama, b.tgl_exp, a.harga_jual as harga, b.stok
+$query = "SELECT a.kd, a.nama, b.tgl_exp, a.satuan, a.harga_jual as harga, b.stok
   FROM produk a 
   LEFT JOIN detail_produk b ON a.kd = b.kd_produk
   $searchQuery 
@@ -29,6 +29,7 @@ while ($d = mysqli_fetch_assoc($result)) {
     'kd' => $d['kd'],
     'nama' => $d['nama'],
     'tgl_exp' => $d['tgl_exp'],
+    'satuan' => $d['satuan'],
     'harga' => $d['harga'],
     'stok' => $d['stok']
   );

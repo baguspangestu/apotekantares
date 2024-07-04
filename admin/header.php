@@ -122,12 +122,6 @@ if ($_SESSION['level'] != 'admin') {
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color:#349beb;" id="accordionSidebar">
 
-      <!-- Sidebar - Brand -->
-
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
       <!-- Nav Item - Dashboard -->
       <br>
       <li class="nav-item nav-bg <?php $p = $_GET['page'];
@@ -153,7 +147,7 @@ if ($_SESSION['level'] != 'admin') {
                                     echo "active";
                                   } ?>">
         <a class="nav-link text-dark" href="?page=dataproduk">
-          <i class="fas fa-fw fa-tablets text-dark "></i>
+          <i class="fas fa-fw fa-boxes text-dark "></i>
           <span>Data Produk</span></a>
       </li>
       <br>

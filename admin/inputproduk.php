@@ -1,8 +1,7 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-tablets"></i> Data Produk</h1>
+  <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-boxes"></i> Data Produk</h1>
 
-  <a href="?page=dataproduk" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i
-        class="fas fa-arrow-left"></i></span>
+  <a href="?page=dataproduk" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
     <span class="text">Kembali</span>
   </a>
 </div>
@@ -35,7 +34,7 @@
               ?>
             <option value="<?php echo $dd['kd'] ?>"><?php echo $dd['kd'] ?> -
               <?php echo $dd['nama'] ?></option>
-            <?php
+          <?php
               }
           ?>
           </select>

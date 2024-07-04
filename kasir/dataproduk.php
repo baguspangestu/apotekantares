@@ -1,5 +1,5 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-tablets"></i> Data Produk</h1>
+  <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-boxes"></i> Data Produk</h1>
 </div>
 
 <div class="card shadow mb-4">
@@ -18,6 +18,7 @@
             <th>Nama Produk</th>
             <th>Tanggal Expired</th>
             <th>Kategori</th>
+            <th>Satuan</th>
             <th>Harga</th>
             <th>Stok</th>
           </tr>
@@ -29,7 +30,7 @@
             return "Rp " . number_format($n, 0, ',', '.');
           }
 
-          $query = "SELECT a.kd, a.nama, b.tgl_exp, c.nama as kategori, a.harga_jual as harga, b.stok
+          $query = "SELECT a.kd, a.nama, b.tgl_exp, c.nama as kategori, a.satuan, a.harga_jual as harga, b.stok
                     FROM produk a 
                     LEFT JOIN detail_produk b ON a.kd = b.kd_produk
                     LEFT JOIN kategori c ON a.kd_kategori = c.kd
@@ -44,6 +45,7 @@
             <td align="left"><?php echo $data['nama']; ?></td>
             <td><?php echo date('d-m-Y', strtotime($data['tgl_exp'])); ?></td>
             <td align="left"><?php echo $data['kategori']; ?></td>
+            <td><?php echo $data['satuan']; ?></td>
             <td align="right"><?php echo formatRupiah($data['harga']); ?></td>
             <td><?php echo $data['stok']; ?></td>
           </tr>
