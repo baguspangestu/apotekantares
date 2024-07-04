@@ -18,7 +18,7 @@ if ($_SESSION['level'] != 'admin') {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Aplikasi Manajemen Pengelolaan Transaksi Produk Apotek</title>
+  <title>SISTEM INFORMASI PENJUALAN APOTEK ANTARES PRINGSEWU</title>
 
   <!-- Custom fonts for this template-->
   <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
