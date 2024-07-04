@@ -7,7 +7,7 @@
   <!-- Content Row -->
   <div class="alert alert-success">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    Selamat datang <span class="text-uppercase"><b><?php echo $_SESSION['username']; ?>!</b></span> Anda bisa
+    Selamat datang <span class="text-uppercase"><b><?php echo $_SESSION['nama']; ?>!</b></span> Anda bisa
     mengoperasikan sistem dengan wewenang tertentu melalui pilihan menu di bawah.
   </div>
   <div class="row">
