@@ -2,48 +2,47 @@
 include("../config/koneksi.php");
 $qq = mysqli_query($konek, "SELECT * FROM keranjang_beli");
 
-$query2 = mysqli_query($konek, "SELECT * FROM transaksi_beli ORDER BY no_transaksi DESC");
+$query2 = mysqli_query($konek, "SELECT * FROM transaksi_beli ORDER BY kd DESC");
 $data2 = mysqli_fetch_assoc($query2);
 $jml = mysqli_num_rows($query2);
 if ($jml == 0) {
-  $no_transaksi = 'TB001';
+  $kd = 'TR001';
 } else {
-  $subid = substr($data2['no_transaksi'], 3);
+  $subid = substr($data2['kd'], 3);
   if ($subid > 0 && $subid <= 8) {
     $sub = $subid + 1;
-    $no_transaksi = 'TB00' . $sub;
+    $kd = 'TR00' . $sub;
   } elseif ($subid >= 9 && $subid <= 100) {
     $sub = $subid + 1;
-    $no_transaksi = 'TB0' . $sub;
+    $kd = 'TR0' . $sub;
   } elseif ($subid >= 99 && $subid <= 1000) {
     $sub = $subid + 1;
-    $no_transaksi = 'TB' . $sub;
+    $kd = 'TR' . $sub;
   }
 }
 
-$qqq = mysqli_query($konek, "SELECT * FROM detail_transaksi ORDER BY sub_transaksi DESC");
-$ddd = mysqli_fetch_assoc($qqq);
-$jmlh = mysqli_num_rows($qqq);
-if ($jmlh == 0) {
-  $sub_transaksi = 'SB001';
-} else {
-  $suid = substr($ddd['sub_transaksi'], 3);
-  if ($suid > 0 && $suid <= 8) {
-    $su = $suid + 1;
-    $sub_transaksi = 'SB00' . $su;
-  } elseif ($suid >= 9 && $suid <= 100) {
-    $su = $suid + 1;
-    $sub_transaksi = 'SB0' . $su;
-  } elseif ($suid >= 99 && $suid <= 1000) {
-    $su = $suid + 1;
-    $sub_transaksi = 'SB' . $su;
-  }
-}
+$tanggal = date('Y-m-d');
 
 while ($dd = mysqli_fetch_array($qq)) {
-  mysqli_query($konek, "INSERT INTO transaksi_beli VALUES ('','$no_transaksi','$dd[kd_suplier]','$dd[tgl_transaksi]','$dd[total_transaksi]')");
-  $id = mysqli_insert_id($konek);
-  mysqli_query($konek, "INSERT INTO detail_transaksi VALUES ('$sub_transaksi','$id','$dd[kd_produk]','$dd[jml_beli]')");
-  mysqli_query($konek, "DELETE FROM keranjang_beli WHERE idbeli='$dd[idbeli]'");
+  mysqli_begin_transaction($konek);
+
+  try {
+    mysqli_query($konek, "INSERT INTO transaksi_beli VALUES ('$kd', '{$dd['kd_suplier']}', '$tanggal', '{$dd['total']}')");
+    mysqli_query($konek, "INSERT INTO detail_transaksi_beli VALUES ('', '$kd', '{$dd['kd_produk']}', '{$dd['jumlah']}')");
+
+    $result = mysqli_query($konek, "SELECT stok FROM detail_produk WHERE kd_produk = '{$dd['kd_produk']}'");
+    $row = mysqli_fetch_assoc($result);
+    $stok_sekarang = $row['stok'];
+    $stok_baru = $stok_sekarang + $dd['jumlah'];
+
+    mysqli_query($konek, "UPDATE detail_produk SET stok = '$stok_baru' WHERE kd_produk = '{$dd['kd_produk']}'");
+    mysqli_query($konek, "DELETE FROM keranjang_beli WHERE kd = '{$dd['kd']}'");
+
+    mysqli_commit($konek);
+  } catch (Exception $e) {
+    mysqli_rollback($konek);
+    echo "Terjadi kesalahan: " . $e->getMessage();
+  }
 }
+
 echo "<script>window.location.href='index.php?page=databeli'</script>";

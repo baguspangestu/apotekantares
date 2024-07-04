@@ -44,16 +44,16 @@ $data = mysqli_fetch_assoc($sql);
           <select class="form-control" name="level" required>
             <option value="">--Pilih Level--</optiom>
             <option value="admin" <?php if ('admin' == $data['level']) {
-																		echo "selected";
-																	} ?>>Admin</option>
+                                    echo "selected";
+                                  } ?>>Admin</option>
             <option value="kasir" <?php if ('kasir' == $data['level']) {
-																		echo "selected";
-																	} ?>>Kasir</option>
+                                    echo "selected";
+                                  } ?>>Kasir</option>
           </select>
         </div>
 
         <div class="form-group col-md-6">
-          <label class="font-weight-bold">nama</label>
+          <label class="font-weight-bold">Nama</label>
           <input autocomplete="off" type="text" name="nama" required class="form-control"
             value="<?php echo $data['nama']; ?>" />
         </div>
@@ -69,20 +69,20 @@ $data = mysqli_fetch_assoc($sql);
 
 <?php
 if (isset($_POST['submit'])) {
-	$id = $_POST['id'];
-	$username = $_POST['username'];
-	$password = $_POST['password'];
-	$level = $_POST['level'];
-	$nama = $_POST['nama'];
+  $id = $_POST['id'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $level = $_POST['level'];
+  $nama = $_POST['nama'];
 
-	$edit = mysqli_query($konek, "UPDATE user SET id = '$id', username = '$username', password = '$password', level = '$level', nama = '$nama' WHERE id = '$id'");
-	echo mysqli_error($konek);
+  $edit = mysqli_query($konek, "UPDATE user SET id = '$id', username = '$username', password = '$password', level = '$level', nama = '$nama' WHERE id = '$id'");
+  echo mysqli_error($konek);
 
-	if ($edit) {
-		echo '<script>alert("Edit User Berhasil!");</script>';
-		echo '<script>window.location.href="index.php?page=datauser"</script>';
-	}
-	echo '<script>alert("Edit User Gagal!");</script>';
-	echo mysqli_error($konek);
+  if ($edit) {
+    echo '<script>alert("Edit User Berhasil!");</script>';
+    echo '<script>window.location.href="index.php?page=datauser"</script>';
+  }
+  echo '<script>alert("Edit User Gagal!");</script>';
+  echo mysqli_error($konek);
 }
 ?>

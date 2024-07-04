@@ -36,6 +36,8 @@ else if (@$_GET['page'] == 'datasuplier') {
 	include "inputsuplier.php";
 } else if (@$_GET['page'] == 'editsuplier') {
 	include "editsuplier.php";
+} else if (@$_GET['page'] == 'detailsuplier') {
+	include "detailsuplier.php";
 }
 
 // DATA PEMBELIAN	

@@ -21,23 +21,6 @@
         </div>
 
         <div class="form-group col-md-6">
-          <label class="font-weight-bold">Kode Produk</label>
-          <select name="kd_produk" class="form-control" required>
-            <option value="">--Pilih Kode Produk--</optiom>
-              <?php
-              $qq = mysqli_query($konek, "SELECT * FROM produk ORDER BY kd ASC");
-              while ($dd = mysqli_fetch_assoc($qq)) {
-              ?>
-            <option value="<?php echo $dd['kd'] ?>"><?php echo $dd['kd'] ?> - <?php echo $dd['nama'] ?>
-            </option>
-            <?php
-              }
-          ?>
-          </select>
-        </div>
-
-
-        <div class="form-group col-md-6">
           <label class="font-weight-bold">No. Telp</label>
           <input autocomplete="off" type="text" name="no_tlp" required class="form-control" />
         </div>
@@ -83,12 +66,11 @@ if (isset($_POST['submit'])) {
   }
 
   $nama = $_POST['nama'];
-  $kd_produk = $_POST['kd_produk'];
   $alamat = $_POST['alamat'];
   $no_tlp = $_POST['no_tlp'];
   $email = $_POST['email'];
 
-  mysqli_query($konek, "INSERT INTO suplier VALUES ('$kd','$nama','$kd_produk','$alamat','$no_tlp','$email')");
+  mysqli_query($konek, "INSERT INTO suplier VALUES ('$kd','$nama','$alamat','$no_tlp','$email')");
   echo mysqli_error($konek);
   echo '<script>alert("Berhasil Menyimpan suplier!");</script>';
   echo '<script>window.location.href="index.php?page=datasuplier"</script>';

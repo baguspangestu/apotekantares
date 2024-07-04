@@ -358,7 +358,7 @@ function getListProduk(q = '', p = 1) {
         const row = $('<tr></tr>').appendTo('#tbodyListProduk');
         row.addClass("text-center");
         const cell1 = $('<td></td>').appendTo(row);
-        cell1.attr('colspan', 6);
+        cell1.attr('colspan', 7);
         cell1.text("Produk tidak ditemukan");
       }
 

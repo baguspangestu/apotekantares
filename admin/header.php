@@ -22,7 +22,9 @@ if ($_SESSION['level'] != 'admin') {
 
   <!-- Custom fonts for this template-->
   <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
 
   <!-- Custom styles for this template-->
   <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
@@ -88,7 +90,7 @@ if ($_SESSION['level'] != 'admin') {
       </li>
 
       <li class="nav-item <?php $p = $_GET['page'];
-                          if (($p == 'datasuplier') || ($p == 'inputsuplier') || ($p == 'editsuplier')) {
+                          if (($p == 'datasuplier') || ($p == 'inputsuplier') || ($p == 'editsuplier') || ($p == 'detailsuplier')) {
                             echo "active";
                           } ?>">
         <a class="nav-link" href="?page=datasuplier">
@@ -136,7 +138,8 @@ if ($_SESSION['level'] != 'admin') {
                           if (($p == 'laporanproduk') || ($p == 'laporanprodukbulan') || ($p == 'laporanjenisbulan') || ($p == 'laporanjualbulan') || ($p == 'laporanjualjenis') || ($p == 'laporanseluruh')) {
                             echo "active";
                           } ?>">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
+          aria-controls="collapsePages">
           <i class="fas fa-fw fa-print"></i>
           <span>Data Laporan</span>
         </a>
@@ -204,10 +207,11 @@ if ($_SESSION['level'] != 'admin') {
 
               $total = $totalStok + $totalExp;
               ?>
-              <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-2x"></i>
                 <?php if ($total > 0) { ?>
-                  <span class="badge badge-pill badge-danger"><?php echo $total; ?></span>
+                <span class="badge badge-pill badge-danger"><?php echo $total; ?></span>
                 <?php } ?>
               </a>
               <div class="dropdown-menu" aria-labelledby="notifDropdown">
@@ -217,9 +221,10 @@ if ($_SESSION['level'] != 'admin') {
             </li>
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <span class="text-uppercase mr-2 d-none d-lg-inline text-gray-600 small">
-                  <?php echo $_SESSION['username']; ?>
+                  <?php echo $_SESSION['nama']; ?>
                 </span>
                 <img class="img-profile rounded-circle" src="../assets/img/user.png">
               </a>

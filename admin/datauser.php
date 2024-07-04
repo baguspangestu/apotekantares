@@ -25,11 +25,11 @@
         </thead>
         <tbody>
           <?php
-					$no = 0;
-					$query  = mysqli_query($konek, "SELECT * FROM user");
-					while ($data = mysqli_fetch_assoc($query)) {
-						$no++;
-					?>
+          $no = 0;
+          $query  = mysqli_query($konek, "SELECT * FROM user");
+          while ($data = mysqli_fetch_assoc($query)) {
+            $no++;
+          ?>
           <tr align="center">
             <td><?php echo $no; ?></td>
             <td><?php echo $data['username']; ?></td>
@@ -49,8 +49,8 @@
             </td>
           </tr>
           <?php
-					}
-					?>
+          }
+          ?>
         </tbody>
       </table>
     </div>

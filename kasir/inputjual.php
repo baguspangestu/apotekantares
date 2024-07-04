@@ -306,7 +306,7 @@ function getListProduk(q = '', p = 1) {
           row.addClass("text-center");
 
           const cell = [];
-          for (let i = 0; i <= 6; i++) {
+          for (let i = 0; i < 7; i++) {
             const c = $('<td></td>').appendTo(row);
             c.addClass("align-middle");
 
@@ -328,7 +328,7 @@ function getListProduk(q = '', p = 1) {
         const row = $('<tr></tr>').appendTo('#tbodyListProduk');
         row.addClass("text-center");
         const cell1 = $('<td></td>').appendTo(row);
-        cell1.attr('colspan', 6);
+        cell1.attr('colspan', 7);
         cell1.text("Produk tidak ditemukan");
       }
 

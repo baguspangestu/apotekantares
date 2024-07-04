@@ -34,24 +34,6 @@ $data = mysqli_fetch_assoc($query);
         </div>
 
         <div class="form-group col-md-6">
-          <label class="font-weight-bold">Kode Produk</label>
-          <select name="kd_produk" class="form-control" required>
-            <option value="">--Pilih Kode Produk--</optiom>
-              <?php
-							$qq = mysqli_query($konek, "SELECT * FROM produk ORDER BY kd ASC");
-							while ($dd = mysqli_fetch_assoc($qq)) {
-							?>
-            <option value="<?php echo $dd['kd'] ?>" <?php if ($dd['kd'] == $data['kd_produk']) {
-																											echo "selected";
-																										} ?>><?php echo $dd['kd'] ?> - <?php echo $dd['nama'] ?></option>
-            <?php
-							}
-					?>
-          </select>
-        </div>
-
-
-        <div class="form-group col-md-6">
           <label class="font-weight-bold">No. Telp</label>
           <input autocomplete="off" type="text" name="no_tlp" required class="form-control"
             value="<?php echo $data['no_tlp']; ?>" />
@@ -79,16 +61,15 @@ $data = mysqli_fetch_assoc($query);
 
 <?php
 if (isset($_POST['submit'])) {
-	$kd = $_POST['kd'];
-	$nama = $_POST['nama'];
-	$kd_produk = $_POST['kd_produk'];
-	$alamat = $_POST['alamat'];
-	$no_tlp = $_POST['no_tlp'];
-	$email = $_POST['email'];
+  $kd = $_POST['kd'];
+  $nama = $_POST['nama'];
+  $alamat = $_POST['alamat'];
+  $no_tlp = $_POST['no_tlp'];
+  $email = $_POST['email'];
 
-	mysqli_query($konek, "UPDATE suplier SET nama = '$nama', kd_produk = '$kd_produk', alamat = '$alamat', no_tlp = '$no_tlp', email = '$email' WHERE kd = '$kd'");
-	echo mysqli_error($konek);
-	echo '<script>alert("Edit Suplier Berhasil!");</script>';
-	echo '<script>window.location.href="index.php?page=datasuplier"</script>';
+  mysqli_query($konek, "UPDATE suplier SET nama = '$nama', alamat = '$alamat', no_tlp = '$no_tlp', email = '$email' WHERE kd = '$kd'");
+  echo mysqli_error($konek);
+  echo '<script>alert("Edit Suplier Berhasil!");</script>';
+  echo '<script>window.location.href="index.php?page=datasuplier"</script>';
 }
 ?>
