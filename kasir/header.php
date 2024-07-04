@@ -22,7 +22,9 @@ if ($_SESSION['level'] != 'kasir') {
 
   <!-- Custom fonts for this template-->
   <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
 
   <!-- Custom styles for this template-->
   <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
@@ -31,10 +33,10 @@ if ($_SESSION['level'] != 'kasir') {
   <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <style>
-    .nav-bg {
-      background-color: #CCCCCC;
-      color: #000000;
-    }
+  .nav-bg {
+    background-color: #CCCCCC;
+    color: #000000;
+  }
   </style>
 </head>
 
@@ -82,19 +84,21 @@ if ($_SESSION['level'] != 'kasir') {
 
           $total = $totalStok + $totalExp;
           ?>
-          <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-bell fa-2x"></i>
             <?php if ($total > 0) { ?>
-              <span class="badge badge-pill badge-danger"><?php echo $total; ?></span>
+            <span class="badge badge-pill badge-danger"><?php echo $total; ?></span>
             <?php } ?>
           </a>
           <div class="dropdown-menu" aria-labelledby="notifDropdown">
-            <a class="dropdown-item" href="?page=dataproduk"><?php echo $totalStok; ?> Hampir Habis.</a>
-            <a class="dropdown-item" href="?page=dataproduk"><?php echo $totalExp; ?> Hampir Expired.</a>
+            <a class="dropdown-item" href="?page=dataproduk&sort=stok"><?php echo $totalStok; ?> Hampir Habis.</a>
+            <a class="dropdown-item" href="?page=dataproduk&sort=exp"><?php echo $totalExp; ?> Hampir Expired.</a>
           </div>
         </li>
         <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             <span class="text-uppercase mr-2 d-none d-lg-inline text-white small font-weight-bold">
               <?php echo $_SESSION['nama']; ?>
             </span>

@@ -91,8 +91,8 @@ if ($_SESSION['level'] != 'admin') {
             <?php } ?>
           </a>
           <div class="dropdown-menu" aria-labelledby="notifDropdown">
-            <a class="dropdown-item" href="?page=dataproduk"><?php echo $totalStok; ?> Hampir Habis.</a>
-            <a class="dropdown-item" href="?page=dataproduk"><?php echo $totalExp; ?> Hampir Expired.</a>
+            <a class="dropdown-item" href="?page=dataproduk&sort=stok"><?php echo $totalStok; ?> Hampir Habis.</a>
+            <a class="dropdown-item" href="?page=dataproduk&sort=exp"><?php echo $totalExp; ?> Hampir Expired.</a>
           </div>
         </li>
         <!-- Nav Item - User Information -->

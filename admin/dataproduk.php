@@ -29,32 +29,52 @@
         </thead>
         <tbody>
           <?php
-          $no = 0;
+          function formatRupiah($n)
+          {
+            return "Rp " . number_format($n, 0, ',', '.');
+          }
+
+          $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+          if (!empty($sort) && $sort == "stok") {
+            $order = "ORDER BY b.stok ASC";
+          } else if (!empty($sort) && $sort == "exp") {
+            $order = "ORDER BY b.tgl_exp ASC";
+          } else {
+            $order = "ORDER BY a.nama ASC";
+          }
+
           $query = "SELECT a.kd, a.nama, b.tgl_exp, c.nama as kategori, a.satuan, b.harga_beli, a.harga_jual, b.stok
 										FROM produk a 
 										LEFT JOIN detail_produk b ON a.kd=b.kd_produk
 										LEFT JOIN kategori c ON a.kd_kategori=c.kd
-										ORDER BY a.kd ASC";
+										$order";
           $result  = mysqli_query($konek, $query);
+          $no = 0;
           while ($data = mysqli_fetch_assoc($result)) {
           ?>
-            <tr class="text-center">
-              <td><?php echo ++$no; ?></td>
-              <td><?php echo $data['kd']; ?></td>
-              <td align="left"><?php echo $data['nama']; ?></td>
-              <td><?php echo $data['tgl_exp']; ?></td>
-              <td align="left"><?php echo $data['kategori']; ?></td>
-              <td><?php echo $data['satuan']; ?></td>
-              <td><?php echo $data['stok']; ?></td>
-              <td align="right"><?php echo "Rp " . number_format($data['harga_beli'], 0, ',', '.'); ?></td>
-              <td align="right"><?php echo "Rp " . number_format($data['harga_jual'], 0, ',', '.'); ?></td>
-              <td>
-                <div class="btn-group" role="group">
-                  <a data-toggle="tooltip" data-placement="bottom" title="Edit Data" href="?page=editproduk&id=<?php echo $data['kd']; ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                  <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="hapusproduk.php?id=<?php echo $data['kd']; ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                </div>
-              </td>
-            </tr>
+          <tr class="text-center">
+            <td><?php echo ++$no; ?></td>
+            <td><?php echo $data['kd']; ?></td>
+            <td align="left"><?php echo $data['nama']; ?></td>
+            <td><?php echo $data['tgl_exp']; ?></td>
+            <td align="left"><?php echo $data['kategori']; ?></td>
+            <td><?php echo $data['satuan']; ?></td>
+            <td><?php echo $data['stok']; ?></td>
+            <td align="right"><?php echo "Rp " . number_format($data['harga_beli'], 0, ',', '.'); ?></td>
+            <td align="right"><?php echo "Rp " . number_format($data['harga_jual'], 0, ',', '.'); ?></td>
+            <td>
+              <div class="btn-group" role="group">
+                <a data-toggle="tooltip" data-placement="bottom" title="Edit Data"
+                  href="?page=editproduk&id=<?php echo $data['kd']; ?>" class="btn btn-warning btn-sm"><i
+                    class="fa fa-edit"></i></a>
+                <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
+                  href="hapusproduk.php?id=<?php echo $data['kd']; ?>"
+                  onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"
+                  class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+              </div>
+            </td>
+          </tr>
           <?php
           }
           ?>

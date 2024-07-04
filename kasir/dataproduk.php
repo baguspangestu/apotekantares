@@ -30,11 +30,21 @@
             return "Rp " . number_format($n, 0, ',', '.');
           }
 
+          $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+          if (!empty($sort) && $sort == "stok") {
+            $order = "ORDER BY b.stok ASC";
+          } else if (!empty($sort) && $sort == "exp") {
+            $order = "ORDER BY b.tgl_exp ASC";
+          } else {
+            $order = "ORDER BY a.nama ASC";
+          }
+
           $query = "SELECT a.kd, a.nama, b.tgl_exp, c.nama as kategori, a.satuan, a.harga_jual as harga, b.stok
                     FROM produk a 
                     LEFT JOIN detail_produk b ON a.kd = b.kd_produk
                     LEFT JOIN kategori c ON a.kd_kategori = c.kd
-                    ORDER BY a.nama ASC";
+                    $order";
           $result  = mysqli_query($konek, $query);
           $no = 0;
           while ($data = mysqli_fetch_assoc($result)) {
