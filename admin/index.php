@@ -45,21 +45,21 @@ else if (@$_GET['page'] == 'databeli') {
 	include "databeli.php";
 } else if (@$_GET['page'] == 'inputbeli') {
 	include "inputbeli.php";
+} else if (@$_GET['page'] == 'editbeli') {
+	include "editbeli.php";
 }
 
 // DATA LAPORAN	
 else if (@$_GET['page'] == 'laporanproduk') {
 	include "laporanproduk.php";
-} else if (@$_GET['page'] == 'laporanprodukbulan') {
-	include "laporanprodukbulan.php";
-} else if (@$_GET['page'] == 'laporanjenisbulan') {
-	include "laporanjenisbulan.php";
-} else if (@$_GET['page'] == 'laporanjualbulan') {
-	include "laporanjualbulan.php";
-} else if (@$_GET['page'] == 'laporanjualjenis') {
-	include "laporanjualjenis.php";
-} else if (@$_GET['page'] == 'laporanseluruh') {
-	include "laporanseluruh.php";
+} else if (@$_GET['page'] == 'laporanstok') {
+	include "laporanstok.php";
+} else if (@$_GET['page'] == 'laporanbeli') {
+	include "laporanbeli.php";
+} else if (@$_GET['page'] == 'laporanjual') {
+	include "laporanjual.php";
+} else if (@$_GET['page'] == 'laporanpendapatan') {
+	include "laporanpendapatan.php";
 } else {
 	include "home.php";
 }

@@ -1,16 +1,28 @@
 <?php
 include("../config/koneksi.php");
 $date = date("d-m-Y");
-$no_transaksi = $_GET['id'];
+$kd = $_GET['id'];
 ?>
 
 <body onload="window.print();">
+  <style>
+  table.table {
+    border-collapse: collapse;
+  }
+
+  table.table,
+  table.table th,
+  table.table td {
+    border: 1px solid black;
+  }
+  </style>
   <table width="90%" style="padding-left: 10%;" celpadding="8">
     <tr align="center">
-      <th>APOTEK SOURCECODEKU.COM</th>
+      <th>APOTEK ANTARES PRINGSEWU</th>
     </tr>
     <tr align="center">
-      <td style="border-bottom:2px solid #333;padding:0 0 5px 0;"><i>Jl. Raya Lubuk Begalung, Kota Padang, Sumatera Barat, Indonesia</i></td>
+      <td style="border-bottom:2px solid #333;padding:0 0 5px 0;"><i>Jl. Pringadi No.128, RT.001, Pringsewu Utara, Kec.
+          Pringsewu, Kabupaten Pringsewu, Lampung 35373</i></td>
     </tr>
     <tr align="center">
       <th style="padding:20px 0">NOTA PEMBELIAN OBAT</th>
@@ -19,23 +31,23 @@ $no_transaksi = $_GET['id'];
 
 
   <?php
-  $sqlq = mysqli_query($konek, "SELECT * FROM transaksi_beli a LEFT JOIN detail_transaksi b ON a.id_tr=b.id_tr LEFT JOIN suplier c ON a.kd_suplier=c.kd_suplier LEFT JOIN detail_produk d ON b.kd_produk=d.kd_produk LEFT JOIN produk e ON d.kd_produk=e.kd_produk WHERE a.no_transaksi='$no_transaksi'");
+  $sqlq = mysqli_query($konek, "SELECT a.kd, b.nama as suplier, a.tanggal, b.alamat, b.no_tlp, a.total FROM transaksi_beli a LEFT JOIN suplier b ON a.kd_suplier = b.kd WHERE a.kd='$kd'");
   $dataq = mysqli_fetch_assoc($sqlq);
   ?>
   <div class="container">
     <table width="90%" style="padding-left: 10%;">
       <tr>
-        <td>No Transaksi</td>
+        <td>Kode Transaksi</td>
         <td>:</td>
-        <td><?php echo $dataq['no_transaksi']; ?></td>
+        <td><?php echo $dataq['kd']; ?></td>
         <td>Nama Suplier</td>
         <td>:</td>
-        <td><?php echo $dataq['nama_suplier']; ?></td>
+        <td><?php echo $dataq['suplier']; ?></td>
       </tr>
       <tr>
         <td>Tanggal Transaksi</td>
         <td>:</td>
-        <td><?php echo $dataq['tgl_transaksi']; ?></td>
+        <td><?php echo $dataq['tanggal']; ?></td>
         <td>Alamat Suplier</td>
         <td>:</td>
         <td><?php echo $dataq['alamat']; ?></td>
@@ -52,48 +64,61 @@ $no_transaksi = $_GET['id'];
   </div>
   <center>
     <div class="table-responsive">
-      <table width="80%" border="1" cellpadding="5">
+      <table width="80%" border="1" cellpadding="5" class="table">
         <thead>
           <tr align="center">
             <td><b>No</b></td>
             <td><b>Kode Produk</b></td>
             <td><b>Nama Produk</b></td>
-            <td><b>Nama Kategori</b></td>
-            <td><b>Jumlah</b></td>
+            <td><b>Kategori</b></td>
             <td><b>Harga Beli</b></td>
+            <td><b>Jumlah</b></td>
+            <td><b>Total</b></td>
           </tr>
         </thead>
-        <?php
-        $no = 0;
-        $total = 0;
-        $sqlqw = mysqli_query($konek, "SELECT * FROM transaksi_beli a LEFT JOIN detail_transaksi b ON a.id_tr=b.id_tr LEFT JOIN detail_produk d ON b.kd_produk=d.kd_produk LEFT JOIN produk e ON d.kd_produk=e.kd_produk LEFT JOIN kategori f ON e.kd_kategori=f.kd_kategori WHERE a.no_transaksi='$no_transaksi'");
-        while ($dataqw = mysqli_fetch_assoc($sqlqw)) {
-          $no++;
-        ?>
-          <tbody>
-            <td align="right"><?php echo $no; ?></td>
-            <td><?php echo $dataqw['kd_produk']; ?></td>
-            <td><?php echo $dataqw['nama_produk']; ?></td>
-            <td><?php echo $dataqw['nama_kategori']; ?></td>
-            <td align="right"><?php echo $dataqw['jml_beli']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($dataq['harga_modal'], 0, ',', '.'); ?></td>
-            </tr>
+        <tbody>
           <?php
-        }
+          $no = 0;
+          $total = 0;
+          $query = "SELECT c.kd, c.nama, d.nama as kategori, a.jumlah, a.harga
+                  FROM detail_transaksi_beli a
+                  LEFT JOIN detail_produk b ON a.kd_produk = b.kd_produk 
+                  LEFT JOIN produk c ON a.kd_produk = c.kd
+                  LEFT JOIN kategori d ON c.kd_kategori = d.kd
+                  WHERE a.kd_transaksi = '$kd' ORDER BY a.id ASC";
+          $sqlqw = mysqli_query($konek, $query);
+          while ($dataqw = mysqli_fetch_assoc($sqlqw)) {
+            $no++;
           ?>
-          </tbody>
+          <tr>
+            <td align="center"><?php echo $no; ?></td>
+            <td><?php echo $dataqw['kd']; ?></td>
+            <td><?php echo $dataqw['nama']; ?></td>
+            <td><?php echo $dataqw['kategori']; ?></td>
+            <td align="right"><?php echo "Rp " . number_format($dataqw['harga'], 0, ',', '.'); ?></td>
+            <td align="center"><?php echo $dataqw['jumlah']; ?></td>
+            <td align="right">
+              <?php echo "Rp " . number_format($dataqw['harga'] * $dataqw['jumlah'], 0, ',', '.'); ?>
+            </td>
+          </tr>
+          <?php
+          }
+          ?>
+          <tr>
+            <td colspan="6" align="center"><b>Total</b></td>
+            <td align="right"><b><?php echo "Rp " . number_format($dataq['total'], 0, ',', '.'); ?></b></td>
+          </tr>
+        </tbody>
       </table>
-      <table style="padding-top:10px" width="80%" cellpadding="5">
-        <tr>
-          <td align="right" style="padding-right:60px;">PADANG, <?php echo $date; ?></td>
-        </tr>
-        <tr>
-          <td align="right" style="padding-right:95px;">PIMPINAN</td>
-        </tr>
-        <tr>
-          <td align="right" style="padding-top:50px;">APOTEK SOURCECODEKU.COM</td>
-        </tr>
-      </table>
+      <div style="display: flex; justify-content:end; width: 80%;">
+        <div style="text-align:center">
+          <p>PRINGSEWU, <?php echo $date; ?><br />PIMPINAN
+          </p>
+          <br />
+          <br />
+          <p>APOTEK ANTARES PRINGSEWU</p>
+        </div>
+      </div>
     </div>
   </center>
 </body>

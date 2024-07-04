@@ -12,7 +12,7 @@ if (!empty($q)) {
   $searchQuery = "WHERE a.nama LIKE '%$q%'";
 }
 
-$query = "SELECT a.kd, a.nama, b.tgl_exp, b.harga_modal as harga, b.stok
+$query = "SELECT a.kd, a.nama, b.tgl_exp, b.harga_beli as harga, b.stok
   FROM produk a 
   LEFT JOIN detail_produk b ON a.kd = b.kd_produk
   $searchQuery 

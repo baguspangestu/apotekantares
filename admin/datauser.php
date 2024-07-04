@@ -41,10 +41,20 @@
                 <a data-toggle="tooltip" data-placement="bottom" title="Edit Data"
                   href="?page=edituser&id=<?php echo $data['id']; ?>" class="btn btn-warning btn-sm"><i
                     class="fa fa-edit"></i></a>
+                <?php
+                  if ($_SESSION['id'] == $data['id']) {
+                  ?>
+                <div class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i></div>
+                <?php
+                  } else {
+                  ?>
                 <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
                   href="hapususer.php?id=<?php echo $data['id']; ?>"
                   onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"
                   class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                <?php
+                  }
+                  ?>
               </div>
             </td>
           </tr>

@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!$result) die("Query failed: " . mysqli_error($konek));
 
   $data = mysqli_fetch_assoc($result);
-  $kd = generateKd('TR', $data);
+  $kd = generateKd('TJ', $data);
 
   $idKasir = $_SESSION['id'];
   $pembeli = !empty($_POST['pembeli']) ? $_POST['pembeli'] : 'Pembeli ' . substr($kd, 2);

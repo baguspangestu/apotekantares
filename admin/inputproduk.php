@@ -42,8 +42,13 @@
         </div>
 
         <div class="form-group col-md-6">
-          <label class="font-weight-bold">Harga Modal</label>
-          <input autocomplete="off" type="text" name="harga_modal" required class="form-control" />
+          <label class="font-weight-bold">Satuan</label>
+          <input autocomplete="off" type="text" name="satuan" required class="form-control" />
+        </div>
+
+        <div class="form-group col-md-6">
+          <label class="font-weight-bold">Harga Beli</label>
+          <input autocomplete="off" type="text" name="harga_beli" required class="form-control" />
         </div>
 
         <div class="form-group col-md-6">
@@ -52,6 +57,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="card-footer text-right">
       <button name="submit" type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
@@ -85,11 +91,12 @@ if (isset($_POST['submit'])) {
   $kd_kategori = $_POST['kd_kategori'];
   $tgl_exp = $_POST['tgl_exp'];
   $stok = 0;
-  $harga_modal = $_POST['harga_modal'];
+  $harga_beli = $_POST['harga_beli'];
   $harga_jual = $_POST['harga_jual'];
+  $satuan = $_POST['satuan'];
 
-  mysqli_query($konek, "INSERT INTO produk (kd, kd_kategori, nama, harga_jual) VALUES ('$kd','$kd_kategori','$nama','$harga_jual')");
-  mysqli_query($konek, "INSERT INTO detail_produk (kd_produk, tgl_exp, harga_modal, stok) VALUES('$kd','$tgl_exp','$harga_modal','$stok')");
+  mysqli_query($konek, "INSERT INTO produk (kd, kd_kategori, nama, harga_jual, satuan) VALUES ('$kd','$kd_kategori','$nama','$harga_jual','$satuan')");
+  mysqli_query($konek, "INSERT INTO detail_produk (kd_produk, tgl_exp, harga_beli, stok) VALUES('$kd','$tgl_exp','$harga_beli','$stok')");
   echo mysqli_error($konek);
   echo '<script>alert("Berhasil Menyimpan Produk!");</script>';
   echo '<script>window.location.href="index.php?page=dataproduk"</script>';

@@ -1,51 +1,64 @@
 <?php
-function generateKd($kd, $data)
-{
-  if (!$data) {
-    return $kd . '001';
-  } else {
-    $suid4 = substr($data['kd'], 3);
-    if ($suid4 >= 0 && $suid4 <= 8) {
-      $su4 = $suid4 + 1;
-      return $kd . '00' . $su4;
-    } elseif ($suid4 >= 9 && $suid4 <= 99) {
-      $su4 = $suid4 + 1;
-      return $kd . '0' . $su4;
-    } else {
-      $su4 = $suid4 + 1;
-      return $kd . $su4;
-    }
-  }
+$kd = $_GET['id'];
+
+$transaksiAwalQuery =  "SELECT kd, tanggal, kd_suplier, total FROM transaksi_beli WHERE kd='$kd'";
+$transaksiAwalResult = mysqli_query($konek, $transaksiAwalQuery);
+$transaksiAwalData = mysqli_fetch_assoc($transaksiAwalResult);
+
+$detailTransaksiAwalQuery =  "SELECT b.kd, b.nama, c.tgl_exp, a.harga, c.stok, a.jumlah
+                              FROM detail_transaksi_beli a 
+                              LEFT JOIN produk b ON a.kd_produk = b.kd 
+                              LEFT JOIN detail_produk c ON b.kd = c.kd_produk
+                              WHERE a.kd_transaksi = '$kd'";
+
+$detailTransaksiAwalResult = mysqli_query($konek, $detailTransaksiAwalQuery);
+
+$detailTransaksiAwalData = array();
+while ($data = mysqli_fetch_assoc($detailTransaksiAwalResult)) {
+  $data['stok'] -= $data['jumlah'];
+  $detailTransaksiAwalData[] = $data;
 }
 
+$jsonListPembelianAwal = json_encode($detailTransaksiAwalData);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $query = "SELECT * FROM transaksi_beli ORDER BY kd DESC";
-  $result = mysqli_query($konek, $query);
-
-  if (!$result) die("Query failed: " . mysqli_error($konek));
-
-  $data = mysqli_fetch_assoc($result);
-  $kd = generateKd('TB', $data);
-
-  $kdSuplier = !empty($_POST['kd_suplier']) ? $_POST['kd_suplier'] : $_GET['kd_suplier'];
+  $kdSuplier = $transaksiAwalData['kd_suplier'];
   $tanggal = !empty($_POST['tanggal']) ? $_POST['tanggal'] : date('Y-m-d');
   $total = !empty($_POST['subTotal']) ? $_POST['subTotal'] : 0;
 
-  $dataListPembelian  = json_decode($_POST['dataListPembelian'], true);
+  $listPembelianAwal = json_decode($jsonListPembelianAwal, true);
+  $listPembelianEdit = json_decode($_POST['dataListPembelian'], true);
+
+  $listPembelianKeys = array_column($listPembelianEdit, null, 'kd');
+
+  foreach ($listPembelianAwal as &$itemAwal) {
+    $key = $itemAwal['kd'];
+
+    if (!isset($listPembelianKeys[$key])) {
+      $itemAwal['jumlah'] = 0;
+    }
+  }
+
+  $listPembelian = array_merge($listPembelianAwal, $listPembelianEdit);
+
+  usort($listPembelian, function ($a, $b) {
+    return $a['kd'] <=> $b['kd'];
+  });
 
   $konek->begin_transaction();
 
   try {
-    $queryTransaksi = "INSERT INTO transaksi_beli (kd, kd_suplier, tanggal, total) VALUES (?, ?, ?, ?)";
+    $queryTransaksi = "UPDATE transaksi_beli SET kd_suplier = ?, tanggal = ?, total = ? WHERE kd = ?";
     $stmtTransaksi = $konek->prepare($queryTransaksi);
-    $stmtTransaksi->bind_param("sssi", $kd, $kdSuplier, $tanggal, $total);
+    $stmtTransaksi->bind_param("ssis", $kdSuplier, $tanggal, $total, $kd);
     $stmtTransaksi->execute();
     $stmtTransaksi->close();
 
     $queryUpdateStok = "UPDATE detail_produk SET stok = ? WHERE kd_produk = ?";
-    $queryDetail = "INSERT INTO detail_transaksi_beli (kd_transaksi, kd_produk, harga, jumlah) VALUES (?, ?, ?, ?)";
+    $queryDetailUpdate = "INSERT INTO detail_transaksi_beli (kd_transaksi, kd_produk, harga, jumlah) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE harga = VALUES(harga), jumlah = VALUES(jumlah)";
+    $queryDetailDelete = "DELETE FROM detail_transaksi_beli WHERE kd_transaksi = ? AND kd_produk = ?";
 
-    foreach ($dataListPembelian as $data) {
+    foreach ($listPembelian as $data) {
       $kdProduk = $data['kd'];
       $harga = $data['harga'];
       $jumlah = $data['jumlah'];
@@ -58,21 +71,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $stmtUpdateStok->execute();
       $stmtUpdateStok->close();
 
-      $stmtDetail = $konek->prepare($queryDetail);
-      $stmtDetail->bind_param("ssii", $kd, $kdProduk, $harga, $jumlah);
-      $stmtDetail->execute();
-      $stmtDetail->close();
+      if ($jumlah == 0) {
+        $stmtDetailDelete = $konek->prepare($queryDetailDelete);
+        $stmtDetailDelete->bind_param("ss", $kd, $kdProduk);
+        $stmtDetailDelete->execute();
+        $stmtDetailDelete->close();
+      } else {
+        $stmtDetailUpdate = $konek->prepare($queryDetailUpdate);
+        $stmtDetailUpdate->bind_param("ssii", $kd, $kdProduk, $harga, $jumlah);
+        $stmtDetailUpdate->execute();
+        $stmtDetailUpdate->close();
+      }
     }
 
     $konek->commit();
 
-    echo '<script>alert("Berhasil Menambahkan Transaksi!");</script>';
+    echo '<script>alert("Berhasil Mengubah Transaksi!");</script>';
     echo '<script>window.location.href="index.php?page=databeli"</script>';
   } catch (Exception $e) {
     $konek->rollback();
 
     echo "Eksekusi gagal: " . $e->getMessage();
   }
+
+  $konek->close();
 }
 ?>
 
@@ -133,14 +155,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="row">
         <div class="form-group col-md-6">
           <label class="font-weight-bold">Nama Suplier</label>
-          <select name="kd_suplier" id="kd_suplier" class="form-control" required>
+          <select name="kd_suplier" id="kd_suplier" class="form-control" disabled required>
             <option value="">--Pilih Suplier--</option>
             <?php
             $qq = mysqli_query($konek, "SELECT * FROM suplier ORDER BY nama ASC");
             while ($dd = mysqli_fetch_assoc($qq)) {
             ?>
             <option value="<?php echo $dd['kd']; ?>"
-              <?php echo isset($_GET['kd_suplier']) && ($_GET['kd_suplier'] == $dd['kd']) ? 'selected' : '' ?>>
+              <?php echo $transaksiAwalData['kd_suplier'] == $dd['kd'] ? 'selected' : '' ?>>
               <?php echo $dd['nama'] ?></option>
             <?php
             }
@@ -149,8 +171,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="form-group col-md-6">
           <label class="font-weight-bold">Tanggal Transaksi</label>
-          <input autocomplete="off" type="date" name="tanggal" value="<?php echo date('Y-m-d'); ?>" class="form-control"
-            <?php echo isset($_GET['kd_suplier']) && !empty($_GET['kd_suplier']) ? '' : 'disabled' ?> required />
+          <input autocomplete="off" type="date" name="tanggal" value="<?php echo $transaksiAwalData['tanggal']; ?>"
+            class="form-control" required />
         </div>
       </div>
       <hr />
@@ -160,9 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="form-group">
             <label class="font-weight-bold">Kode</label>
             <div class="d-flex">
-              <span id="listProdukButton"
-                class="btn btn-primary btn-block mr-2 <?php echo isset($_GET['kd_suplier']) && !empty($_GET['kd_suplier']) ? '' : 'disabled' ?>"><i
-                  class="fas fa-search"></i> Pilih
+              <span id="listProdukButton" class="btn btn-primary btn-block mr-2"><i class="fas fa-search"></i> Pilih
                 Produk
               </span>
               <input autocomplete="off" type="text" id="tpKdInput" class="form-control" readonly />
@@ -243,7 +263,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="../assets/vendor/jquery/jquery.min.js"></script>
 <script>
 const listProduk = [];
-const listPembelian = [];
+const listPembelianAwal = <?php echo $jsonListPembelianAwal ?>;
+const listPembelian = <?php echo $jsonListPembelianAwal ?>;
 
 let selectedProduct = null;
 let subTotal = 0;
@@ -253,11 +274,6 @@ function formatTanggal(tanggal) {
   let bagian = tanggal.split('-');
   return bagian[2] + '-' + bagian[1] + '-' + bagian[0];
 }
-
-function setKdSuplier() {
-  window.location.href = `index.php?page=inputbeli&kd_suplier=${$("#kd_suplier").val()}`;
-}
-
 
 function getListProduk(q = '', p = 1) {
   $.ajax({
@@ -479,8 +495,6 @@ function updateDaftarPembelian() {
   $("#subTotal").text(formatRupiah(subTotal));
 }
 
-$("#kd_suplier").change(setKdSuplier);
-
 $('#listProdukButton').click(function() {
   if ($('#listProdukButton').hasClass('disabled')) return;
   $('#listProdukModal').modal('show');
@@ -502,10 +516,12 @@ $("#submit").click(function(e) {
 })
 
 $("#reset").click(function(e) {
-  if (!listPembelian.length) return location.reload();
+  if (!listPembelian.length || JSON.stringify(listPembelianAwal) === JSON.stringify(listPembelian))
+    return location.reload();
   const confirmed = confirm("Kamu yakin ingin mereset semua perubahan?")
   if (confirmed) location.reload();
 })
+
 
 updateDaftarPembelian();
 </script>

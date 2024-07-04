@@ -29,8 +29,7 @@
         <tbody>
           <?php
           $no = 0;
-          include("../config/koneksi.php");
-          $query = "SELECT a.kd, a.nama, b.tgl_exp, c.nama as kategori, b.harga_modal, a.harga_jual, b.stok
+          $query = "SELECT a.kd, a.nama, b.tgl_exp, c.nama as kategori, b.harga_beli, a.harga_jual, b.stok
 										FROM produk a 
 										LEFT JOIN detail_produk b ON a.kd=b.kd_produk
 										LEFT JOIN kategori c ON a.kd_kategori=c.kd
@@ -45,7 +44,7 @@
             <td><?php echo $data['tgl_exp']; ?></td>
             <td align="left"><?php echo $data['kategori']; ?></td>
             <td><?php echo $data['stok']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($data['harga_modal'], 0, ',', '.'); ?></td>
+            <td align="right"><?php echo "Rp " . number_format($data['harga_beli'], 0, ',', '.'); ?></td>
             <td align="right"><?php echo "Rp " . number_format($data['harga_jual'], 0, ',', '.'); ?></td>
             <td>
               <div class="btn-group" role="group">
