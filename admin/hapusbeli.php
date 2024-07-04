@@ -1,23 +1,44 @@
 <?php
-
 include("../config/koneksi.php");
+
 $kd = $_GET['id'];
 
-$resultJumlah = mysqli_query($konek, "SELECT kd_produk, jumlah FROM detail_transaksi_beli WHERE kd_transaksi = '$kd'");
-$rowJumlah = mysqli_fetch_assoc($resultJumlah);
-$kd_produk = $rowJumlah['kd_produk'];
-$jumlah = $rowJumlah['jumlah'];
+$konek->begin_transaction();
 
-$resultStok = mysqli_query($konek, "SELECT stok FROM detail_produk WHERE kd_produk = '$kd_produk'");
-$rowStok = mysqli_fetch_assoc($resultStok);
-$stok = $rowStok['stok'];
+try {
+  $queryUpdateStok = "UPDATE detail_produk SET stok = ? WHERE kd_produk = ?";
 
-$stok_baru = $stok - $jumlah;
+  $detailTransaksiQuery =  "SELECT b.kd, c.stok, a.jumlah
+                            FROM detail_transaksi_beli a 
+                            LEFT JOIN produk b ON a.kd_produk = b.kd 
+                            LEFT JOIN detail_produk c ON b.kd = c.kd_produk
+                            WHERE a.kd_transaksi = '$kd'";
 
-mysqli_query($konek, "DELETE FROM transaksi_beli WHERE kd = '$kd'");
-mysqli_query($konek, "DELETE FROM detail_transaksi_beli WHERE kd_transaksi = '$kd'");
-mysqli_query($konek, "UPDATE detail_produk SET stok = '$stok_baru' WHERE kd_produk = '$kd_produk'");
+  $detailTransaksiResult = mysqli_query($konek, $detailTransaksiQuery);
 
-echo mysqli_error($konek);
-echo '<script>alert("Data Beli Berhasil Dihapus!");</script>';
-echo '<script>window.location.href="index.php?page=databeli";</script>';
+  while ($data = mysqli_fetch_assoc($detailTransaksiResult)) {
+    $kdProduk = $data['kd'];
+    $stokBaru = $data['stok'] - $data['jumlah'];
+
+    $stmtUpdateStok = $konek->prepare($queryUpdateStok);
+    $stmtUpdateStok->bind_param("is", $stokBaru, $kdProduk);
+    $stmtUpdateStok->execute();
+    $stmtUpdateStok->close();
+  }
+
+  $deleteTransaksiQuery = "DELETE FROM transaksi_beli WHERE kd = ?";
+  $stmtDeleteTransaksi = $konek->prepare($deleteTransaksiQuery);
+  $stmtDeleteTransaksi->bind_param("s", $kd);
+  $stmtDeleteTransaksi->execute();
+  $stmtDeleteTransaksi->close();
+
+  $konek->commit();
+
+  echo '<script>alert("Berhasil Menghapus Transaksi!");</script>';
+} catch (Exception $e) {
+  echo '<script>alert("Gagal Menghapus Transaksi, silakan coba lagi!");</script>';
+}
+
+echo '<script>window.location.href="index.php?page=databeli"</script>';
+
+$konek->close();
