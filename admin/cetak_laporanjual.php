@@ -12,15 +12,15 @@ $date = date("d-m-Y");
 
 <body onload="window.print();">
   <style>
-  table.table {
-    border-collapse: collapse;
-  }
+    table.table {
+      border-collapse: collapse;
+    }
 
-  table.table,
-  table.table th,
-  table.table td {
-    border: 1px solid black;
-  }
+    table.table,
+    table.table th,
+    table.table td {
+      border: 1px solid black;
+    }
   </style>
   <center>
     <table width="80%" celpadding="8">
@@ -70,22 +70,22 @@ $date = date("d-m-Y");
           <?php
           $no = 0;
           $total = 0;
-          $query = mysqli_query($konek, "SELECT b.kd, b.tanggal, c.nama, d.nama as kategori, a.jumlah, a.harga FROM detail_transaksi_jual a LEFT JOIN transaksi_jual b ON a.kd_transaksi=b.kd LEFT JOIN produk c ON a.kd_produk=c.kd LEFt JOIN kategori d ON c.kd_kategori=d.kd WHERE b.tanggal BETWEEN '$dari_tanggal' AND '$sampai_tanggal' ORDER BY b.tanggal DESC, c.nama ASC");
+          $query = mysqli_query($konek, "SELECT b.kd, b.tanggal, c.nama, d.nama as kategori, a.jumlah, a.harga FROM detail_transaksi_jual a LEFT JOIN transaksi_jual b ON a.kd_transaksi=b.kd LEFT JOIN produk c ON a.kd_produk=c.kd LEFt JOIN kategori d ON c.kd_kategori=d.kd WHERE b.tanggal BETWEEN '$dari_tanggal' AND '$sampai_tanggal' ORDER BY b.tanggal ASC, b.kd ASC, c.nama ASC");
           ?>
           <?php
           while ($data = mysqli_fetch_assoc($query)) {
             $total += $data['harga'] * $data['jumlah'];
           ?>
-          <tr align="center">
-            <td><?php echo ++$no; ?></td>
-            <td><?php echo $data['kd']; ?></td>
-            <td><?php echo formatTanggal($data['tanggal']); ?></td>
-            <td align="left"><?php echo $data['nama']; ?></td>
-            <td align="left"><?php echo $data['kategori']; ?></td>
-            <td align="right"><?php echo formatRupiah($data['harga']); ?></td>
-            <td><?php echo $data['jumlah']; ?></td>
-            <td align="right"><?php echo formatRupiah($data['harga'] * $data['jumlah']); ?></td>
-          </tr>
+            <tr align="center">
+              <td><?php echo ++$no; ?></td>
+              <td><?php echo $data['kd']; ?></td>
+              <td><?php echo formatTanggal($data['tanggal']); ?></td>
+              <td align="left"><?php echo $data['nama']; ?></td>
+              <td align="left"><?php echo $data['kategori']; ?></td>
+              <td align="right"><?php echo formatRupiah($data['harga']); ?></td>
+              <td><?php echo $data['jumlah']; ?></td>
+              <td align="right"><?php echo formatRupiah($data['harga'] * $data['jumlah']); ?></td>
+            </tr>
           <?php
           }
           echo mysqli_error($konek);

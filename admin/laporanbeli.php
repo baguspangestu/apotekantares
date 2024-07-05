@@ -61,7 +61,7 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
           <?php
           $no = 0;
           $total = 0;
-          $query = mysqli_query($konek, "SELECT b.kd, b.tanggal, c.nama as suplier, d.nama as produk, a.jumlah, a.harga FROM detail_transaksi_beli a LEFT JOIN transaksi_beli b ON a.kd_transaksi=b.kd LEFT JOIN suplier c ON b.kd_suplier=c.kd LEFT JOIN produk d ON a.kd_produk=d.kd WHERE b.tanggal BETWEEN '$dari_tanggal' AND '$sampai_tanggal' ORDER BY b.tanggal DESC, d.nama ASC");
+          $query = mysqli_query($konek, "SELECT b.kd, b.tanggal, c.nama as suplier, d.nama as produk, a.jumlah, a.harga FROM detail_transaksi_beli a LEFT JOIN transaksi_beli b ON a.kd_transaksi=b.kd LEFT JOIN suplier c ON b.kd_suplier=c.kd LEFT JOIN produk d ON a.kd_produk=d.kd WHERE b.tanggal BETWEEN '$dari_tanggal' AND '$sampai_tanggal' ORDER BY b.tanggal ASC, b.kd ASC");
           ?>
           <?php
           $total = 0;

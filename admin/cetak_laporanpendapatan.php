@@ -12,15 +12,15 @@ $date = date("d-m-Y");
 
 <body onload="window.print();">
   <style>
-  table.table {
-    border-collapse: collapse;
-  }
+    table.table {
+      border-collapse: collapse;
+    }
 
-  table.table,
-  table.table th,
-  table.table td {
-    border: 1px solid black;
-  }
+    table.table,
+    table.table th,
+    table.table td {
+      border: 1px solid black;
+    }
   </style>
   <center>
     <table width="80%" celpadding="8">
@@ -78,7 +78,7 @@ $date = date("d-m-Y");
                                         FROM transaksi_beli b
                                         LEFT JOIN suplier c ON b.kd_suplier=c.kd
                                         WHERE b.tanggal BETWEEN '$dari_tanggal' AND '$sampai_tanggal'
-                                        ORDER BY tanggal DESC");
+                                        ORDER BY tanggal ASC, kd ASC");
           ?>
           <?php
           while ($data = mysqli_fetch_assoc($query)) {
@@ -94,16 +94,16 @@ $date = date("d-m-Y");
               $tb += $tbeli;
             }
           ?>
-          <tr align="center">
-            <td><?php echo ++$no; ?></td>
-            <td><?php echo $data['kd']; ?></td>
-            <td><?php echo formatTanggal($data['tanggal']); ?></td>
-            <td><?php echo $data['type'] == 1 ? 'Penjualan' : 'Pembelian'; ?></td>
-            <td align="left"><?php echo $data['pihak']; ?></td>
-            <td align="right"><?php echo formatRupiah($tjual); ?></td>
-            <td align="right"><?php echo formatRupiah($tbeli); ?></td>
-            <td align="right"><?php echo $type == 1 ? formatRupiah($tjual) : '-' . formatRupiah($tbeli); ?></td>
-          </tr>
+            <tr align="center">
+              <td><?php echo ++$no; ?></td>
+              <td><?php echo $data['kd']; ?></td>
+              <td><?php echo formatTanggal($data['tanggal']); ?></td>
+              <td><?php echo $data['type'] == 1 ? 'Penjualan' : 'Pembelian'; ?></td>
+              <td align="left"><?php echo $data['pihak']; ?></td>
+              <td align="right"><?php echo formatRupiah($tjual); ?></td>
+              <td align="right"><?php echo formatRupiah($tbeli); ?></td>
+              <td align="right"><?php echo $type == 1 ? formatRupiah($tjual) : '-' . formatRupiah($tbeli); ?></td>
+            </tr>
           <?php
           }
           echo mysqli_error($konek);

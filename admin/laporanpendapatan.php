@@ -19,13 +19,11 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
       <div class="row">
         <div class="form-group col-md-3">
           <label class="font-weight-bold">Dari Tanggal</label>
-          <input autocomplete="off" type="date" name="dari-tanggal" value="<?php echo $dari_tanggal; ?>"
-            class="form-control" required />
+          <input autocomplete="off" type="date" name="dari-tanggal" value="<?php echo $dari_tanggal; ?>" class="form-control" required />
         </div>
         <div class="form-group col-md-3">
           <label class="font-weight-bold">Sampai Tanggal</label>
-          <input autocomplete="off" type="date" name="sampai-tanggal" value="<?php echo $sampai_tanggal; ?>"
-            class="form-control" required />
+          <input autocomplete="off" type="date" name="sampai-tanggal" value="<?php echo $sampai_tanggal; ?>" class="form-control" required />
         </div>
       </div>
     </form>
@@ -37,9 +35,7 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
   <div class="card-header d-sm-flex align-items-center justify-content-between py-3">
     <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-table"></i> Data Pendapatan </h6>
 
-    <a target="_blank"
-      href="cetak_laporanpendapatan.php?dari-tanggal=<?php echo $dari_tanggal; ?>&sampai-tanggal=<?php echo $sampai_tanggal; ?>"
-      class="btn btn-primary"> <i class="fa fa-print"></i> Cetak Data </a>
+    <a target="_blank" href="cetak_laporanpendapatan.php?dari-tanggal=<?php echo $dari_tanggal; ?>&sampai-tanggal=<?php echo $sampai_tanggal; ?>" class="btn btn-primary"> <i class="fa fa-print"></i> Cetak Data </a>
   </div>
 
   <div class="card-body">
@@ -69,7 +65,7 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
                                         FROM transaksi_beli b
                                         LEFT JOIN suplier c ON b.kd_suplier=c.kd
                                         WHERE b.tanggal BETWEEN '$dari_tanggal' AND '$sampai_tanggal'
-                                        ORDER BY tanggal DESC");
+                                        ORDER BY tanggal ASC, kd ASC");
           ?>
           <?php
           while ($data = mysqli_fetch_assoc($query)) {
@@ -85,16 +81,16 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
               $total -= $tbeli;
             }
           ?>
-          <tr align="center">
-            <td><?php echo ++$no; ?></td>
-            <td><?php echo $data['kd']; ?></td>
-            <td><?php echo formatTanggal($data['tanggal']); ?></td>
-            <td><?php echo $data['type'] == 1 ? 'Penjualan' : 'Pembelian'; ?></td>
-            <td align="left"><?php echo $data['pihak']; ?></td>
-            <td align="right"><?php echo formatRupiah($tjual); ?></td>
-            <td align="right"><?php echo formatRupiah($tbeli); ?></td>
-            <td align="right"><?php echo $type == 1 ? formatRupiah($tjual) : '-' . formatRupiah($tbeli); ?></td>
-          </tr>
+            <tr align="center">
+              <td><?php echo ++$no; ?></td>
+              <td><?php echo $data['kd']; ?></td>
+              <td><?php echo formatTanggal($data['tanggal']); ?></td>
+              <td><?php echo $data['type'] == 1 ? 'Penjualan' : 'Pembelian'; ?></td>
+              <td align="left"><?php echo $data['pihak']; ?></td>
+              <td align="right"><?php echo formatRupiah($tjual); ?></td>
+              <td align="right"><?php echo formatRupiah($tbeli); ?></td>
+              <td align="right"><?php echo $type == 1 ? formatRupiah($tjual) : '-' . formatRupiah($tbeli); ?></td>
+            </tr>
           <?php
           }
           echo mysqli_error($konek);
@@ -111,5 +107,5 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
 
 <script src="../assets/vendor/jquery/jquery.min.js"></script>
 <script>
-$('#filter').change(() => $('#filter').submit());
+  $('#filter').change(() => $('#filter').submit());
 </script>
