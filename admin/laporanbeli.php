@@ -71,12 +71,12 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
           <tr>
             <td align="center"><?php echo ++$no; ?></td>
             <td align="center"><?php echo $data['kd']; ?></td>
-            <td align="center"><?php echo $data['tanggal']; ?></td>
+            <td align="center"><?php echo formatTanggal($data['tanggal']); ?></td>
             <td><?php echo $data['suplier']; ?></td>
             <td><?php echo $data['produk']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($data['harga'], 0, ',', '.'); ?></td>
+            <td align="right"><?php echo formatRupiah($data['harga']); ?></td>
             <td align="center"><?php echo $data['jumlah']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($data['harga'] * $data['jumlah'], 0, ',', '.'); ?></td>
+            <td align="right"><?php echo formatRupiah($data['harga'] * $data['jumlah']); ?></td>
           </tr>
           <?php
           }
@@ -84,7 +84,7 @@ $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : da
         </tbody>
       </table>
       <div class="alert alert-info mt-4 text-right">
-        Total biaya pembelian adalah sebesar <b><?php echo "Rp " . number_format($total, 0, ',', '.'); ?></b>
+        Total biaya pembelian adalah sebesar <b><?php echo formatRupiah($total); ?></b>
       </div>
     </div>
   </div>

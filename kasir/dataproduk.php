@@ -25,11 +25,6 @@
         </thead>
         <tbody>
           <?php
-          function formatRupiah($n)
-          {
-            return "Rp " . number_format($n, 0, ',', '.');
-          }
-
           $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 
           if (!empty($sort) && $sort == "stok") {
@@ -53,7 +48,7 @@
             <td><?php echo ++$no; ?></td>
             <td><?php echo $data['kd']; ?></td>
             <td align="left"><?php echo $data['nama']; ?></td>
-            <td><?php echo date('d-m-Y', strtotime($data['tgl_exp'])); ?></td>
+            <td><?php echo formatTanggal($data['tgl_exp']); ?></td>
             <td align="left"><?php echo $data['kategori']; ?></td>
             <td><?php echo $data['satuan']; ?></td>
             <td align="right"><?php echo formatRupiah($data['harga']); ?></td>

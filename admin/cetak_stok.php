@@ -1,20 +1,23 @@
 <?php
-session_start();
+include("../config/helpers.php");
 include("../config/koneksi.php");
+
+session_start();
+
 $date = date("d-m-Y");
 ?>
 
 <body onload="window.print();">
   <style>
-  table.table {
-    border-collapse: collapse;
-  }
+    table.table {
+      border-collapse: collapse;
+    }
 
-  table.table,
-  table.table th,
-  table.table td {
-    border: 1px solid black;
-  }
+    table.table,
+    table.table th,
+    table.table td {
+      border: 1px solid black;
+    }
   </style>
   <center>
     <table width="80%" celpadding="8">
@@ -26,7 +29,7 @@ $date = date("d-m-Y");
             Kec. Pringsewu, Kabupaten Pringsewu, Lampung 35373</i></td>
       </tr>
       <tr align="center">
-        <th style="padding:20px 0">LAPORAN DATA PRODUK</th>
+        <th style="padding:20px 0">CETAK LAPORAN STOK PTODUK</th>
       </tr>
     </table>
 
@@ -45,7 +48,6 @@ $date = date("d-m-Y");
         <?php
         $no = 0;
         $total = 0;
-        include("../config/koneksi.php");
         $query = mysqli_query($konek, "SELECT a.kd, a.nama, c.nama as kategori, b.stok FROM produk a LEFT JOIN detail_produk b ON a.kd=b.kd_produk LEFT JOIN kategori c ON a.kd_kategori=c.kd WHERE a.kd=b.kd_produk GROUP BY a.kd");
         ?>
         <tbody>
@@ -53,13 +55,13 @@ $date = date("d-m-Y");
           while ($data = mysqli_fetch_assoc($query)) {
             $no++;
           ?>
-          <tr>
-            <td align="center"><?php echo $no; ?></td>
-            <td align="center"><?php echo $data['kd']; ?></td>
-            <td><?php echo $data['nama']; ?></td>
-            <td><?php echo $data['kategori']; ?></td>
-            <td align="center"><?php echo $data['stok']; ?></td>
-          </tr>
+            <tr>
+              <td align="center"><?php echo $no; ?></td>
+              <td align="center"><?php echo $data['kd']; ?></td>
+              <td><?php echo $data['nama']; ?></td>
+              <td><?php echo $data['kategori']; ?></td>
+              <td align="center"><?php echo $data['stok']; ?></td>
+            </tr>
           <?php
           }
           ?>

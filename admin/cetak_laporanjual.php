@@ -1,16 +1,13 @@
 <?php
-session_start();
+include("../config/helpers.php");
 include("../config/koneksi.php");
+
+session_start();
 
 $dari_tanggal = !empty($_GET['dari-tanggal']) ? $_GET['dari-tanggal'] : date('Y-m-d');
 $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : date('Y-m-d');
 
 $date = date("d-m-Y");
-
-function formatTanggal($ddd)
-{
-  return date('d-m-Y', strtotime($ddd));
-}
 ?>
 
 <body onload="window.print();">
@@ -61,6 +58,7 @@ function formatTanggal($ddd)
           <tr align="center">
             <th>No</th>
             <th>Kode</th>
+            <th>Tanggal</th>
             <th>Nama</th>
             <th>Kategori</th>
             <th>Harga Jual</th>
@@ -78,22 +76,23 @@ function formatTanggal($ddd)
           while ($data = mysqli_fetch_assoc($query)) {
             $total += $data['harga'] * $data['jumlah'];
           ?>
-          <tr>
-            <td align="center"><?php echo ++$no; ?></td>
-            <td align="center"><?php echo $data['kd']; ?></td>
-            <td><?php echo $data['nama']; ?></td>
-            <td align="center"><?php echo $data['kategori']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($data['harga'], 0, ',', '.'); ?></td>
-            <td align="center"><?php echo $data['jumlah']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($data['harga'] * $data['jumlah'], 0, ',', '.'); ?></td>
+          <tr align="center">
+            <td><?php echo ++$no; ?></td>
+            <td><?php echo $data['kd']; ?></td>
+            <td><?php echo formatTanggal($data['tanggal']); ?></td>
+            <td align="left"><?php echo $data['nama']; ?></td>
+            <td align="left"><?php echo $data['kategori']; ?></td>
+            <td align="right"><?php echo formatRupiah($data['harga']); ?></td>
+            <td><?php echo $data['jumlah']; ?></td>
+            <td align="right"><?php echo formatRupiah($data['harga'] * $data['jumlah']); ?></td>
           </tr>
           <?php
           }
           echo mysqli_error($konek);
           ?>
           <tr align="center">
-            <td colspan="6" align="center"><b>Total Penjualan</b></td>
-            <td align="right"><b><?php echo "Rp " . number_format($total, 0, ',', '.'); ?></b></td>
+            <td colspan="7" align="center"><b>Total Penjualan</b></td>
+            <td align="right"><b><?php echo formatRupiah($total); ?></b></td>
           </tr>
         </tbody>
       </table>

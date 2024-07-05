@@ -1,5 +1,7 @@
 <?php
+include("../config/helpers.php");
 include("../config/koneksi.php");
+
 session_start();
 if ($_SESSION['level'] != 'admin') {
   echo '<script>alert("Anda Harus Login Sebagai Admin!");</script>';
@@ -22,9 +24,7 @@ if ($_SESSION['level'] != 'admin') {
 
   <!-- Custom fonts for this template-->
   <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
   <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
@@ -33,10 +33,10 @@ if ($_SESSION['level'] != 'admin') {
   <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <style>
-  .nav-bg {
-    background-color: #CCCCCC;
-    color: #000000;
-  }
+    .nav-bg {
+      background-color: #CCCCCC;
+      color: #000000;
+    }
   </style>
 
 </head>
@@ -83,11 +83,10 @@ if ($_SESSION['level'] != 'admin') {
 
           $total = $totalStok + $totalExp;
           ?>
-          <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-bell fa-2x"></i>
             <?php if ($total > 0) { ?>
-            <span class="badge badge-pill badge-danger"><?php echo $total; ?></span>
+              <span class="badge badge-pill badge-danger"><?php echo $total; ?></span>
             <?php } ?>
           </a>
           <div class="dropdown-menu" aria-labelledby="notifDropdown">
@@ -97,8 +96,7 @@ if ($_SESSION['level'] != 'admin') {
         </li>
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="text-uppercase mr-2 d-none d-lg-inline text-white small font-weight-bold">
               <?php echo $_SESSION['nama']; ?>
             </span>
@@ -182,8 +180,7 @@ if ($_SESSION['level'] != 'admin') {
                                   if (($p == 'laporanproduk') || ($p == 'laporanstok') || ($p == 'laporanbeli') || ($p == 'laporanjual') || ($p == 'laporanpendapatan')) {
                                     echo "active";
                                   } ?>">
-        <a class="nav-link text-dark collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-          aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link text-dark collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-print text-dark"></i>
           <span>Data Laporan</span>
         </a>

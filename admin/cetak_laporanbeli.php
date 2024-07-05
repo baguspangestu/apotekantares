@@ -1,29 +1,26 @@
 <?php
-session_start();
+include("../config/helpers.php");
 include("../config/koneksi.php");
+
+session_start();
 
 $dari_tanggal = !empty($_GET['dari-tanggal']) ? $_GET['dari-tanggal'] : date('Y-m-d');
 $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : date('Y-m-d');
 
 $date = date("d-m-Y");
-
-function formatTanggal($ddd)
-{
-  return date('d-m-Y', strtotime($ddd));
-}
 ?>
 
 <body onload="window.print();">
   <style>
-  table.table {
-    border-collapse: collapse;
-  }
+    table.table {
+      border-collapse: collapse;
+    }
 
-  table.table,
-  table.table th,
-  table.table td {
-    border: 1px solid black;
-  }
+    table.table,
+    table.table th,
+    table.table td {
+      border: 1px solid black;
+    }
   </style>
   <center>
     <table width="80%" celpadding="8">
@@ -36,7 +33,7 @@ function formatTanggal($ddd)
             Pringsewu, Kabupaten Pringsewu, Lampung 35373</i></td>
       </tr>
       <tr align="center">
-        <th style="padding:20px 0;text-transform:uppercase">LAPORAN PEMBELIAN PRODUK
+        <th style="padding:20px 0;text-transform:uppercase">CETAK LAPORAN PEMBELIAN PRODUK
         </th>
       </tr>
     </table>
@@ -79,22 +76,22 @@ function formatTanggal($ddd)
           while ($data = mysqli_fetch_assoc($query)) {
             $total += $data['harga'] * $data['jumlah'];
           ?>
-          <tr>
-            <td align="center"><?php echo ++$no; ?></td>
-            <td align="center"><?php echo $data['kd']; ?></td>
-            <td align="center"><?php echo $data['tanggal']; ?></td>
-            <td><?php echo $data['suplier']; ?></td>
-            <td><?php echo $data['produk']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($data['harga'], 0, ',', '.'); ?></td>
-            <td align="center"><?php echo $data['jumlah']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($data['harga'] * $data['jumlah'], 0, ',', '.'); ?></td>
-          </tr>
+            <tr>
+              <td align="center"><?php echo ++$no; ?></td>
+              <td align="center"><?php echo $data['kd']; ?></td>
+              <td align="center"><?php echo formatTanggal($data['tanggal']); ?></td>
+              <td><?php echo $data['suplier']; ?></td>
+              <td><?php echo $data['produk']; ?></td>
+              <td align="right"><?php echo formatRupiah($data['harga']); ?></td>
+              <td align="center"><?php echo $data['jumlah']; ?></td>
+              <td align="right"><?php echo formatRupiah($data['harga'] * $data['jumlah']); ?></td>
+            </tr>
           <?php
           }
           ?>
           <tr align="center">
             <td colspan="7" align="center"><b>Total Pembelian</b></td>
-            <td align="right"><b><?php echo "Rp " . number_format($total, 0, ',', '.'); ?></b></td>
+            <td align="right"><b><?php echo formatRupiah($total); ?></b></td>
           </tr>
         </tbody>
       </table>

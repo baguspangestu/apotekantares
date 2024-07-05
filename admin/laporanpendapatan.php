@@ -1,16 +1,6 @@
 <?php
 $dari_tanggal = !empty($_GET['dari-tanggal']) ? $_GET['dari-tanggal'] : date('Y-m-d');
 $sampai_tanggal = !empty($_GET['sampai-tanggal']) ? $_GET['sampai-tanggal'] : date('Y-m-d');
-
-function formatRupiah($n)
-{
-  if ($n < 0) {
-    return "-Rp " . number_format(abs($n), 0, ',', '.');
-  } else {
-    return "Rp " . number_format($n, 0, ',', '.');
-  }
-}
-
 ?>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -98,7 +88,7 @@ function formatRupiah($n)
           <tr align="center">
             <td><?php echo ++$no; ?></td>
             <td><?php echo $data['kd']; ?></td>
-            <td><?php echo $data['tanggal']; ?></td>
+            <td><?php echo formatTanggal($data['tanggal']); ?></td>
             <td><?php echo $data['type'] == 1 ? 'Penjualan' : 'Pembelian'; ?></td>
             <td align="left"><?php echo $data['pihak']; ?></td>
             <td align="right"><?php echo formatRupiah($tjual); ?></td>

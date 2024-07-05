@@ -27,11 +27,6 @@
         </thead>
         <tbody>
           <?php
-          function formatRupiah($n)
-          {
-            return "Rp " . number_format($n, 0, ',', '.');
-          }
-
           $query = "SELECT * FROM transaksi_jual ORDER BY kd DESC";
           $result  = mysqli_query($konek, $query);
           $no = 0;
@@ -40,29 +35,22 @@
             $diskon = ($data['diskon'] / 100) * $subTotal;
             $total = $subTotal - $diskon;
           ?>
-          <tr align="center">
-            <td><?php echo ++$no; ?></td>
-            <td><?php echo $data['kd']; ?></td>
-            <td align="left"><?php echo $data['pembeli']; ?></td>
-            <td><?php echo $data['tanggal']; ?></td>
-            <td align="right"><?php echo formatRupiah($subTotal); ?></td>
-            <td><?php echo $data['diskon'] . "%"; ?></td>
-            <td align="right"><?php echo formatRupiah($total); ?></td>
-            <td>
-              <div class="btn-group" role="group">
-                <a target="_blank" data-toggle="tooltip" data-placement="bottom" title="Cetak Data"
-                  href="cetak_struk.php?kd=<?php echo $data['kd']; ?>" class="btn btn-primary btn-sm"><i
-                    class="fa fa-print"></i></a>
-                <a data-toggle="tooltip" data-placement="bottom" title="Edit Data"
-                  href="?page=editjual&kd=<?php echo $data['kd']; ?>" class="btn btn-warning btn-sm"><i
-                    class="fa fa-edit"></i></a>
-                <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
-                  href="hapusjual.php?kd=<?php echo $data['kd']; ?>"
-                  onclick="return confirm('Anda yakin ingin menghapus transaksi ini?');"
-                  class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-              </div>
-            </td>
-          </tr>
+            <tr align="center">
+              <td><?php echo ++$no; ?></td>
+              <td><?php echo $data['kd']; ?></td>
+              <td align="left"><?php echo $data['pembeli']; ?></td>
+              <td><?php echo formatTanggal($data['tanggal']); ?></td>
+              <td align="right"><?php echo formatRupiah($subTotal); ?></td>
+              <td><?php echo $data['diskon'] . "%"; ?></td>
+              <td align="right"><?php echo formatRupiah($total); ?></td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a target="_blank" data-toggle="tooltip" data-placement="bottom" title="Cetak Data" href="cetak_struk.php?kd=<?php echo $data['kd']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+                  <a data-toggle="tooltip" data-placement="bottom" title="Edit Data" href="?page=editjual&kd=<?php echo $data['kd']; ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                  <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="hapusjual.php?kd=<?php echo $data['kd']; ?>" onclick="return confirm('Anda yakin ingin menghapus transaksi ini?');" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                </div>
+              </td>
+            </tr>
           <?php
           }
           ?>

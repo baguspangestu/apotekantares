@@ -1,20 +1,24 @@
 <?php
+include("../config/helpers.php");
 include("../config/koneksi.php");
+
+session_start();
+
 $date = date("d-m-Y");
 $kd = $_GET['id'];
 ?>
 
 <body onload="window.print();">
   <style>
-  table.table {
-    border-collapse: collapse;
-  }
+    table.table {
+      border-collapse: collapse;
+    }
 
-  table.table,
-  table.table th,
-  table.table td {
-    border: 1px solid black;
-  }
+    table.table,
+    table.table th,
+    table.table td {
+      border: 1px solid black;
+    }
   </style>
   <table width="90%" style="padding-left: 10%;" celpadding="8">
     <tr align="center">
@@ -25,7 +29,7 @@ $kd = $_GET['id'];
           Pringsewu, Kabupaten Pringsewu, Lampung 35373</i></td>
     </tr>
     <tr align="center">
-      <th style="padding:20px 0">NOTA PEMBELIAN OBAT</th>
+      <th style="padding:20px 0">NOTA PEMBELIAN PRODUK</th>
     </tr>
   </table>
 
@@ -47,7 +51,7 @@ $kd = $_GET['id'];
       <tr>
         <td>Tanggal Transaksi</td>
         <td>:</td>
-        <td><?php echo $dataq['tanggal']; ?></td>
+        <td><?php echo formatTanggal($dataq['tanggal']); ?></td>
         <td>Alamat Suplier</td>
         <td>:</td>
         <td><?php echo $dataq['alamat']; ?></td>
@@ -90,35 +94,43 @@ $kd = $_GET['id'];
           while ($dataqw = mysqli_fetch_assoc($sqlqw)) {
             $no++;
           ?>
-          <tr>
-            <td align="center"><?php echo $no; ?></td>
-            <td><?php echo $dataqw['kd']; ?></td>
-            <td><?php echo $dataqw['nama']; ?></td>
-            <td><?php echo $dataqw['kategori']; ?></td>
-            <td align="right"><?php echo "Rp " . number_format($dataqw['harga'], 0, ',', '.'); ?></td>
-            <td align="center"><?php echo $dataqw['jumlah']; ?></td>
-            <td align="right">
-              <?php echo "Rp " . number_format($dataqw['harga'] * $dataqw['jumlah'], 0, ',', '.'); ?>
-            </td>
-          </tr>
+            <tr>
+              <td align="center"><?php echo $no; ?></td>
+              <td><?php echo $dataqw['kd']; ?></td>
+              <td><?php echo $dataqw['nama']; ?></td>
+              <td><?php echo $dataqw['kategori']; ?></td>
+              <td align="right"><?php echo formatRupiah($dataqw['harga']); ?></td>
+              <td align="center"><?php echo $dataqw['jumlah']; ?></td>
+              <td align="right">
+                <?php echo formatRupiah($dataqw['harga'] * $dataqw['jumlah']); ?>
+              </td>
+            </tr>
           <?php
           }
           ?>
           <tr>
             <td colspan="6" align="center"><b>Total</b></td>
-            <td align="right"><b><?php echo "Rp " . number_format($dataq['total'], 0, ',', '.'); ?></b></td>
+            <td align="right"><b><?php echo formatRupiah($dataq['total']); ?></b></td>
           </tr>
         </tbody>
       </table>
-      <div style="display: flex; justify-content:end; width: 80%;">
-        <div style="text-align:center">
-          <p>PRINGSEWU, <?php echo $date; ?><br />PIMPINAN
-          </p>
-          <br />
-          <br />
-          <p>APOTEK ANTARES PRINGSEWU</p>
+      <div style="width: 80%;">
+        <div style="display: flex; justify-content:space-between; align-items: flex-end">
+          <div style="text-align:center">
+            <p>ADMIN</p>
+            <br />
+            <br />
+            <p>
+              <?php echo $_SESSION['nama']; ?>
+            </p>
+          </div>
+          <div style="text-align:center">
+            <p>PRINGSEWU, <?php echo $date; ?><br />PIMPINAN</p>
+            <br />
+            <br />
+            <p>MUHAMMAD ARIF PRADANA</p>
+          </div>
         </div>
       </div>
-    </div>
   </center>
 </body>

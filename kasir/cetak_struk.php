@@ -1,9 +1,6 @@
 <?php
+include("../config/helpers.php");
 include("../config/koneksi.php");
-function formatRupiah($n)
-{
-  return "Rp " . number_format($n, 0, ',', '.');
-}
 
 $kd = $_GET['kd'];
 
@@ -18,15 +15,15 @@ $total = $subTotal - $diskon;
 
 <body onload="window.print();">
   <style>
-  .bt {
-    border-top: 1px dashed #000;
-    padding-top: 5px;
-  }
+    .bt {
+      border-top: 1px dashed #000;
+      padding-top: 5px;
+    }
 
-  .bb {
-    border-bottom: 1px dashed #000;
-    padding-bottom: 5px;
-  }
+    .bb {
+      border-bottom: 1px dashed #000;
+      padding-bottom: 5px;
+    }
   </style>
 
   <table width="80%" celpadding="8" align="center">
@@ -70,12 +67,12 @@ $total = $subTotal - $diskon;
 
     while ($d = mysqli_fetch_assoc($result)) {
     ?>
-    <tr>
-      <td><?php echo $d['nama']; ?></td>
-      <td align="right"><?php echo $d['jumlah']; ?></td>
-      <td align="right"><?php echo formatRupiah($d['harga']); ?></td>
-      <td align="right"><?php echo formatRupiah($d['harga'] * $d['jumlah']); ?></td>
-    </tr>
+      <tr>
+        <td><?php echo $d['nama']; ?></td>
+        <td align="right"><?php echo $d['jumlah']; ?></td>
+        <td align="right"><?php echo formatRupiah($d['harga']); ?></td>
+        <td align="right"><?php echo formatRupiah($d['harga'] * $d['jumlah']); ?></td>
+      </tr>
     <?php
     }
     ?>
@@ -100,10 +97,10 @@ $total = $subTotal - $diskon;
       <td align="right"><?php echo formatRupiah($data['tunai'] - $total); ?></td>
     </tr>
     <?php if ($diskon > 0) { ?>
-    <tr>
-      <td colspan="3" align="right">ANDA HEMAT :</td>
-      <td align="right"><?php echo formatRupiah($diskon); ?></td>
-    </tr>
+      <tr>
+        <td colspan="3" align="right">ANDA HEMAT :</td>
+        <td align="right"><?php echo formatRupiah($diskon); ?></td>
+      </tr>
     <?php } ?>
     <tr align="center">
       <td class="bt bb" colspan="4">

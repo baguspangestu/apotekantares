@@ -33,14 +33,14 @@
           while ($data = mysqli_fetch_assoc($query)) {
             $no++;
           ?>
-            <tr>
-              <td align="center"><?php echo $no; ?></td>
-              <td align="center"><?php echo $data['kd']; ?></td>
-              <td><?php echo $data['nama']; ?></td>
-              <td><?php echo $data['kategori']; ?></td>
-              <td align="right"><?php echo "Rp " . number_format($data['harga_beli'], 0, ',', '.'); ?></td>
-              <td align="right"><?php echo "Rp " . number_format($data['harga_jual'], 0, ',', '.'); ?></td>
-            </tr>
+          <tr>
+            <td align="center"><?php echo $no; ?></td>
+            <td align="center"><?php echo $data['kd']; ?></td>
+            <td><?php echo $data['nama']; ?></td>
+            <td><?php echo $data['kategori']; ?></td>
+            <td align="right"><?php echo formatRupiah($data['harga_beli']); ?></td>
+            <td align="right"><?php echo formatRupiah($data['harga_jual']); ?></td>
+          </tr>
           <?php
           }
           ?>

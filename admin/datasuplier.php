@@ -27,38 +27,31 @@
         </thead>
         <tbody>
           <?php
-					$no = 0;
-					$query  = mysqli_query($konek, "SELECT * FROM suplier ORDER BY kd ASC");
-					while ($data = mysqli_fetch_assoc($query)) {
-						$detailQuery = mysqli_query($konek, "SELECT COUNT(*) as produk FROM detail_suplier WHERE kd_suplier='$data[kd]'");
-						$detailData = mysqli_fetch_assoc($detailQuery);
-					?>
-          <tr align="center">
-            <td><?php echo ++$no; ?></td>
-            <td><?php echo $data['kd']; ?></td>
-            <td align="left"><?php echo $data['nama']; ?></td>
-            <td align="left"><?php echo $data['alamat']; ?></td>
-            <td align="left"><?php echo $data['email']; ?></td>
-            <td><?php echo $data['no_tlp']; ?></td>
-            <td><?php echo $detailData['produk']; ?></td>
-            <td>
-              <div class="btn-group" role="group">
-                <a data-toggle="tooltip" data-placement="bottom" title="Lihat Data"
-                  href="?page=detailsuplier&id=<?php echo $data['kd']; ?>" class="btn btn-success btn-sm"><i
-                    class="fa fa-eye"></i></a>
-                <a data-toggle="tooltip" data-placement="bottom" title="Edit Data"
-                  href="?page=editsuplier&id=<?php echo $data['kd']; ?>" class="btn btn-warning btn-sm"><i
-                    class="fa fa-edit"></i></a>
-                <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
-                  href="hapussuplier.php?id=<?php echo $data['kd']; ?>"
-                  onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"
-                  class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-              </div>
-            </td>
-          </tr>
+          $no = 0;
+          $query  = mysqli_query($konek, "SELECT * FROM suplier ORDER BY kd ASC");
+          while ($data = mysqli_fetch_assoc($query)) {
+            $detailQuery = mysqli_query($konek, "SELECT COUNT(*) as produk FROM detail_suplier WHERE kd_suplier='$data[kd]'");
+            $detailData = mysqli_fetch_assoc($detailQuery);
+          ?>
+            <tr align="center">
+              <td><?php echo ++$no; ?></td>
+              <td><?php echo $data['kd']; ?></td>
+              <td align="left"><?php echo $data['nama']; ?></td>
+              <td align="left"><?php echo $data['alamat']; ?></td>
+              <td align="left"><?php echo $data['email']; ?></td>
+              <td><?php echo $data['no_tlp']; ?></td>
+              <td><?php echo $detailData['produk']; ?></td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a data-toggle="tooltip" data-placement="bottom" title="Lihat Data" href="?page=detailsuplier&id=<?php echo $data['kd']; ?>" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
+                  <a data-toggle="tooltip" data-placement="bottom" title="Edit Data" href="?page=editsuplier&id=<?php echo $data['kd']; ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                  <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="hapussuplier.php?id=<?php echo $data['kd']; ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                </div>
+              </td>
+            </tr>
           <?php
-					}
-					?>
+          }
+          ?>
         </tbody>
       </table>
     </div>
