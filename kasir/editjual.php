@@ -9,7 +9,7 @@ $transaksiAwalQuery =  "SELECT a.kd, a.tanggal, a.pembeli, a.subtotal, a.diskon,
 $transaksiAwalResult = mysqli_query($konek, $transaksiAwalQuery);
 $transaksiAwalData = mysqli_fetch_assoc($transaksiAwalResult);
 
-$detailTransaksiAwalQuery =  "SELECT b.kd, b.nama, c.tgl_exp, b.satuan, b.harga_jual as harga, c.stok, a.jumlah
+$detailTransaksiAwalQuery =  "SELECT b.kd, b.nama, c.tgl_exp, b.satuan, a.harga, c.stok, a.jumlah
                               FROM detail_transaksi_jual a 
                               LEFT JOIN produk b ON a.kd_produk = b.kd 
                               LEFT JOIN detail_produk c ON b.kd = c.kd_produk
