@@ -1,7 +1,8 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-boxes"></i> Data Produk</h1>
 
-  <a href="?page=dataproduk" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+  <a href="?page=dataproduk" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i
+        class="fas fa-arrow-left"></i></span>
     <span class="text">Kembali</span>
   </a>
 </div>
@@ -34,7 +35,7 @@
               ?>
             <option value="<?php echo $dd['kd'] ?>"><?php echo $dd['kd'] ?> -
               <?php echo $dd['nama'] ?></option>
-          <?php
+            <?php
               }
           ?>
           </select>
@@ -70,21 +71,7 @@ if (isset($_POST['submit'])) {
   $query2 = mysqli_query($konek, "SELECT * FROM produk ORDER BY kd DESC");
   $data2 = mysqli_fetch_assoc($query2);
   $jml = mysqli_num_rows($query2);
-  if ($jml == 0) {
-    $kd = 'PD001';
-  } else {
-    $subid = substr($data2['kd'], 3);
-    if ($subid > 0 && $subid <= 8) {
-      $sub = $subid + 1;
-      $kd = 'PD00' . $sub;
-    } elseif ($subid >= 9 && $subid <= 100) {
-      $sub = $subid + 1;
-      $kd = 'PD0' . $sub;
-    } elseif ($subid >= 99 && $subid <= 1000) {
-      $sub = $subid + 1;
-      $kd = 'PD' . $sub;
-    }
-  }
+  $kd = generateKd('PD', $data2);
 
   $nama = $_POST['nama'];
   $kd_kategori = $_POST['kd_kategori'];
